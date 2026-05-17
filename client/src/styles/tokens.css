@@ -22,6 +22,7 @@
   --color-text-secondary:#8899bb;
   --color-text-muted:    #445577;
   --color-text-inverse:  #000814;
+  --color-text-accent:   #00d4ff;
 
   /* ---- Status ---- */
   --color-success:       #00ff88;
@@ -46,26 +47,42 @@
   --font-body:    'DM Sans', system-ui, -apple-system, sans-serif;
   --font-label:   'IBM Plex Mono', 'Fira Code', monospace;
 
-  --text-xs:    0.75rem;   /* 12px */
-  --text-sm:    0.875rem;  /* 14px */
-  --text-base:  1rem;      /* 16px */
-  --text-lg:    1.125rem;  /* 18px */
-  --text-xl:    1.25rem;   /* 20px */
-  --text-2xl:   1.5rem;    /* 24px */
-  --text-3xl:   2rem;      /* 32px */
-  --text-4xl:   2.5rem;    /* 40px */
-  --text-5xl:   3.5rem;    /* 56px */
-  --text-6xl:   4.5rem;    /* 72px */
+  /* Fluid type scale — smoothly interpolates from 375px to 1280px viewport
+     Min values target mobile comfort; max values target desktop impact.
+     clamp(min, preferred, max) eliminates the need for media-query overrides. */
+  --text-xs:    0.75rem;                                    /* 12px — static */
+  --text-sm:    0.875rem;                                   /* 14px — static */
+  --text-base:  1rem;                                       /* 16px — static */
+  --text-lg:    clamp(1.0625rem, 1.035rem + 0.11vw, 1.125rem);  /* 17px → 18px */
+  --text-xl:    clamp(1.125rem, 1.07rem + 0.22vw, 1.25rem);     /* 18px → 20px */
+  --text-2xl:   clamp(1.25rem, 1.145rem + 0.44vw, 1.5rem);      /* 20px → 24px */
+  --text-3xl:   clamp(1.5rem, 1.29rem + 0.88vw, 2rem);          /* 24px → 32px */
+  --text-4xl:   clamp(1.875rem, 1.615rem + 1.1vw, 2.5rem);      /* 30px → 40px */
+  --text-5xl:   clamp(2.25rem, 1.73rem + 2.21vw, 3.5rem);       /* 36px → 56px */
+  --text-6xl:   clamp(2.75rem, 2.025rem + 3.09vw, 4.5rem);      /* 44px → 72px */
 
-  --leading-tight:   1.15;
-  --leading-snug:    1.3;
+  /* Line-height — context-aware values */
+  --leading-none:    1;
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
   --leading-normal:  1.5;
-  --leading-relaxed: 1.7;
+  --leading-relaxed: 1.65;
+  --leading-loose:   1.8;
 
-  --tracking-tight:  -0.02em;
-  --tracking-normal: 0;
-  --tracking-wide:   0.05em;
-  --tracking-wider:  0.1em;
+  /* Letter-spacing — negative for display, positive for labels */
+  --tracking-tighter: -0.03em;
+  --tracking-tight:   -0.02em;
+  --tracking-snug:    -0.01em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.04em;
+  --tracking-wider:   0.08em;
+  --tracking-widest:  0.12em;
+
+  /* Font weights — semantic names */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
 
   /* ---- Borders ---- */
   --border-subtle:  1px solid rgba(0, 212, 255, 0.1);
@@ -114,11 +131,9 @@
   --container-padding: var(--space-lg);
 }
 
-/* Smaller padding on mobile */
+/* Smaller padding on mobile (type scale handled by fluid clamp) */
 @media (max-width: 768px) {
   :root {
     --container-padding: var(--space-md);
-    --text-5xl: 2.5rem;
-    --text-6xl: 3rem;
   }
 }
