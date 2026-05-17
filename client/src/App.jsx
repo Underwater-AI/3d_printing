@@ -12,6 +12,8 @@ const Pricing = lazy(() => import('./pages/Pricing.jsx'));
 const Track = lazy(() => import('./pages/Track.jsx'));
 const About = lazy(() => import('./pages/About.jsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
+const Privacy = lazy(() => import('./pages/Privacy.jsx'));
+const Terms = lazy(() => import('./pages/Terms.jsx'));
 
 function ProtectedRoute({ children }) {
   const user = useAuthStore((s) => s.user);
@@ -45,9 +47,11 @@ function LoadingFallback() {
   );
 }
 
+const basename = import.meta.env.BASE_URL?.replace(/\/$/, '') || '';
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -69,6 +73,8 @@ export default function App() {
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/track" element={<Track />} />
             <Route path="/about" element={<About />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
             <Route
               path="/admin"
               element={
