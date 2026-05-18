@@ -26,7 +26,7 @@ export default function Pricing() {
         <p style={{
           fontFamily: 'var(--font-label)',
           fontSize: '12px',
-          color: 'var(--color-accent-cyan)',
+          color: 'var(--color-accent-sage)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: '8px',
@@ -70,14 +70,14 @@ export default function Pricing() {
       {/* Full pricing table */}
       <div style={{
         background: 'var(--color-bg-card)',
-        border: '1px solid rgba(0, 212, 255, 0.06)',
+        border: '1px solid rgba(143, 174, 126, 0.06)',
         borderRadius: '12px',
         overflow: 'hidden',
         marginBottom: '48px',
       }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ borderBottom: '1px solid rgba(0, 212, 255, 0.08)' }}>
+            <tr style={{ borderBottom: '1px solid rgba(143, 174, 126, 0.08)' }}>
               {['Material', 'Price/gram', 'Min Charge', 'Use Case'].map((h) => (
                 <th key={h} style={{
                   padding: '14px 20px',
@@ -96,7 +96,7 @@ export default function Pricing() {
           </thead>
           <tbody>
             {materials.map(({ name, rate, min, use }) => (
-              <tr key={name} style={{ borderBottom: '1px solid rgba(0, 212, 255, 0.04)' }}>
+              <tr key={name} style={{ borderBottom: '1px solid rgba(143, 174, 126, 0.04)' }}>
                 <td style={{
                   padding: '14px 20px',
                   fontFamily: 'var(--font-body)',
@@ -110,7 +110,7 @@ export default function Pricing() {
                   padding: '14px 20px',
                   fontFamily: 'var(--font-label)',
                   fontSize: '14px',
-                  color: 'var(--color-accent-cyan)',
+                  color: 'var(--color-accent-sage)',
                 }}>
                   {rate}
                 </td>
@@ -148,7 +148,7 @@ export default function Pricing() {
       </h2>
       <div style={{
         background: 'var(--color-bg-card)',
-        border: '1px solid rgba(0, 212, 255, 0.06)',
+        border: '1px solid rgba(143, 174, 126, 0.06)',
         borderRadius: '12px',
         overflow: 'hidden',
       }}>
@@ -157,7 +157,7 @@ export default function Pricing() {
             display: 'flex',
             justifyContent: 'space-between',
             padding: '14px 20px',
-            borderBottom: '1px solid rgba(0, 212, 255, 0.04)',
+            borderBottom: '1px solid rgba(143, 174, 126, 0.04)',
           }}>
             <span style={{
               fontFamily: 'var(--font-body)',

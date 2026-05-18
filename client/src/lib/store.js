@@ -4,10 +4,18 @@ export const useAuthStore = create((set) => ({
   user: JSON.parse(localStorage.getItem('user') || 'null'),
   token: localStorage.getItem('token') || null,
 
-  login: (user, token) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('token', token);
-    set({ user, token });
+  login: async (email, password) => {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Login failed');
+    localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('token', data.token);
+    set({ user: data.user, token: data.token });
+    return data;
   },
 
   logout: () => {

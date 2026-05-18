@@ -55,14 +55,14 @@ export default function FileUpload({ onFileSelect, selectedFile, error }) {
       <motion.div
         {...getRootProps()}
         className={`dropzone ${isDragActive ? 'active' : ''} ${error ? 'error' : ''}`}
-        whileHover={{ borderColor: 'rgba(0, 212, 255, 0.4)' }}
+        whileHover={{ borderColor: 'rgba(143, 174, 126, 0.4)' }}
         style={{
-          border: `2px dashed ${isDragActive ? 'var(--color-accent-cyan)' : error ? 'var(--color-error)' : 'rgba(0, 212, 255, 0.15)'}`,
+          border: `2px dashed ${isDragActive ? 'var(--color-accent-sage)' : error ? 'var(--color-error)' : 'rgba(143, 174, 126, 0.15)'}`,
           borderRadius: '12px',
           padding: '48px 24px',
           textAlign: 'center',
           cursor: 'pointer',
-          background: isDragActive ? 'rgba(0, 212, 255, 0.04)' : 'var(--color-bg-elevated)',
+          background: isDragActive ? 'rgba(143, 174, 126, 0.04)' : 'var(--color-bg-elevated)',
           transition: 'all 0.2s ease',
         }}
       >
@@ -128,8 +128,8 @@ export default function FileUpload({ onFileSelect, selectedFile, error }) {
         .upload-spinner {
           width: 32px;
           height: 32px;
-          border: 3px solid rgba(0, 212, 255, 0.15);
-          border-top-color: var(--color-accent-cyan);
+          border: 3px solid rgba(143, 174, 126, 0.15);
+          border-top-color: var(--color-accent-sage);
           border-radius: 50%;
           margin: 0 auto;
           animation: spin 0.8s linear infinite;

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import FileUpload from './FileUpload';
 import MaterialSelector from './MaterialSelector';
 import Button from '../ui/Button';
 import PriceTag from '../ui/PriceTag';
+import { initiatePayment } from '../../lib/razorpay';
 
 const steps = ['Upload File', 'Print Settings', 'Delivery', 'Review & Pay'];
 
@@ -21,7 +22,7 @@ const inputStyle = {
   width: '100%',
   padding: '10px 14px',
   background: 'var(--color-bg-elevated)',
-  border: '1px solid rgba(0, 212, 255, 0.1)',
+  border: '1px solid rgba(143, 174, 126, 0.1)',
   borderRadius: '6px',
   color: 'var(--color-text-primary)',
   fontFamily: 'var(--font-body)',
@@ -65,8 +66,32 @@ export default function PrintJobForm({ onSubmit }) {
     specialInstructions: '',
   });
   const [submitting, setSubmitting] = useState(false);
+  const [estimate, setEstimate] = useState(null);
 
   const update = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
+
+  useEffect(() => {
+    if (step !== 3) return;
+    const token = localStorage.getItem('token');
+    fetch('/api/jobs/estimate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({
+        material: form.material,
+        quantity: form.quantity,
+        deliveryMethod: form.deliveryMethod,
+        multicolor: form.multicolor,
+        state: form.state,
+        city: form.city,
+      }),
+    })
+      .then((r) => r.json())
+      .then(setEstimate)
+      .catch(() => setEstimate(null));
+  }, [step, form.material, form.quantity, form.deliveryMethod, form.multicolor, form.state, form.city]);
 
   const canProceed = () => {
     if (step === 0) return form.file && !form.file.error;
@@ -81,11 +106,12 @@ export default function PrintJobForm({ onSubmit }) {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
+      const token = localStorage.getItem('token');
       const res = await fetch('/api/jobs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           fileId: form.file.fileId,
@@ -112,12 +138,40 @@ export default function PrintJobForm({ onSubmit }) {
       });
 
       if (!res.ok) throw new Error('Failed to create job');
-      const data = await res.json();
-      onSubmit(data);
-      toast.success('Print job created!');
+      const { job } = await res.json();
+
+      // Create Razorpay order
+      const orderRes = await fetch('/api/payment/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ jobId: job._id }),
+      });
+
+      if (!orderRes.ok) throw new Error('Failed to create payment order');
+      const orderData = await orderRes.json();
+
+      // Open Razorpay checkout
+      initiatePayment({
+        orderId: orderData.orderId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        keyId: orderData.keyId,
+        jobId: job._id,
+        customer: { name: form.name, email: form.email, phone: form.phone },
+        onSuccess: () => {
+          toast.success('Payment successful! Print job confirmed.');
+          onSubmit(job);
+        },
+        onError: (err) => {
+          toast.error(err || 'Payment failed');
+          setSubmitting(false);
+        },
+      });
     } catch (err) {
       toast.error(err.message);
-    } finally {
       setSubmitting(false);
     }
   };
@@ -147,9 +201,9 @@ export default function PrintJobForm({ onSubmit }) {
               fontFamily: 'var(--font-label)',
               fontSize: '12px',
               fontWeight: 500,
-              background: i <= step ? 'var(--color-accent-cyan)' : 'var(--color-bg-elevated)',
+              background: i <= step ? 'var(--color-accent-sage)' : 'var(--color-bg-elevated)',
               color: i <= step ? '#000814' : 'var(--color-text-muted)',
-              border: i <= step ? 'none' : '1px solid rgba(0, 212, 255, 0.1)',
+              border: i <= step ? 'none' : '1px solid rgba(143, 174, 126, 0.1)',
               flexShrink: 0,
             }}>
               {i < step ? '✓' : i + 1}
@@ -166,7 +220,7 @@ export default function PrintJobForm({ onSubmit }) {
               <div style={{
                 flex: 1,
                 height: '1px',
-                background: i < step ? 'var(--color-accent-cyan)' : 'rgba(0, 212, 255, 0.1)',
+                background: i < step ? 'var(--color-accent-sage)' : 'rgba(143, 174, 126, 0.1)',
               }} />
             )}
           </div>
@@ -227,7 +281,7 @@ export default function PrintJobForm({ onSubmit }) {
                     max={100}
                     value={form.infill}
                     onChange={(e) => update('infill', parseInt(e.target.value))}
-                    style={{ width: '100%', accentColor: 'var(--color-accent-cyan)' }}
+                    style={{ width: '100%', accentColor: 'var(--color-accent-sage)' }}
                   />
                 </div>
               </div>
@@ -243,19 +297,19 @@ export default function PrintJobForm({ onSubmit }) {
                     alignItems: 'center',
                     gap: '8px',
                     padding: '10px 14px',
-                    background: form[key] ? 'rgba(0, 212, 255, 0.08)' : 'var(--color-bg-elevated)',
-                    border: form[key] ? '1px solid rgba(0, 212, 255, 0.3)' : '1px solid rgba(0, 212, 255, 0.06)',
+                    background: form[key] ? 'rgba(143, 174, 126, 0.08)' : 'var(--color-bg-elevated)',
+                    border: form[key] ? '1px solid rgba(143, 174, 126, 0.3)' : '1px solid rgba(143, 174, 126, 0.06)',
                     borderRadius: '6px',
                     cursor: 'pointer',
                     fontFamily: 'var(--font-label)',
                     fontSize: '13px',
-                    color: form[key] ? 'var(--color-accent-cyan)' : 'var(--color-text-secondary)',
+                    color: form[key] ? 'var(--color-accent-sage)' : 'var(--color-text-secondary)',
                   }}>
                     <input
                       type="checkbox"
                       checked={form[key]}
                       onChange={(e) => update(key, e.target.checked)}
-                      style={{ accentColor: 'var(--color-accent-cyan)' }}
+                      style={{ accentColor: 'var(--color-accent-sage)' }}
                     />
                     {label}
                   </label>
@@ -293,8 +347,8 @@ export default function PrintJobForm({ onSubmit }) {
                     style={{
                       flex: 1,
                       padding: '16px',
-                      background: form.deliveryMethod === id ? 'rgba(0, 212, 255, 0.08)' : 'var(--color-bg-elevated)',
-                      border: form.deliveryMethod === id ? '1px solid rgba(0, 212, 255, 0.3)' : '1px solid rgba(0, 212, 255, 0.06)',
+                      background: form.deliveryMethod === id ? 'rgba(143, 174, 126, 0.08)' : 'var(--color-bg-elevated)',
+                      border: form.deliveryMethod === id ? '1px solid rgba(143, 174, 126, 0.3)' : '1px solid rgba(143, 174, 126, 0.06)',
                       borderRadius: '8px',
                       cursor: 'pointer',
                       textAlign: 'left',
@@ -304,7 +358,7 @@ export default function PrintJobForm({ onSubmit }) {
                       fontFamily: 'var(--font-body)',
                       fontSize: '14px',
                       fontWeight: 500,
-                      color: form.deliveryMethod === id ? 'var(--color-accent-cyan)' : 'var(--color-text-primary)',
+                      color: form.deliveryMethod === id ? 'var(--color-accent-sage)' : 'var(--color-text-primary)',
                       display: 'block',
                     }}>{label}</span>
                     <span style={{
@@ -373,7 +427,7 @@ export default function PrintJobForm({ onSubmit }) {
 
               <div style={{
                 background: 'var(--color-bg-elevated)',
-                border: '1px solid rgba(0, 212, 255, 0.08)',
+                border: '1px solid rgba(143, 174, 126, 0.08)',
                 borderRadius: '12px',
                 padding: '24px',
               }}>
@@ -392,17 +446,38 @@ export default function PrintJobForm({ onSubmit }) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     padding: '8px 0',
-                    borderBottom: '1px solid rgba(0, 212, 255, 0.04)',
+                    borderBottom: '1px solid rgba(143, 174, 126, 0.04)',
                   }}>
                     <span style={{ fontFamily: 'var(--font-label)', fontSize: '13px', color: 'var(--color-text-muted)' }}>{label}</span>
                     <span style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--color-text-primary)' }}>{value}</span>
                   </div>
                 ))}
 
+                {estimate && (
+                  <>
+                    {[
+                      { label: 'Material Cost', value: `₹${estimate.materialCost?.toLocaleString('en-IN')}` },
+                      { label: 'Setup Fee', value: `₹${estimate.setupFee}` },
+                      ...(estimate.multicolorFee ? [{ label: 'Multicolor (AMS)', value: `₹${estimate.multicolorFee}` }] : []),
+                      { label: 'Delivery', value: estimate.deliveryCost === 0 ? 'Free' : `₹${estimate.deliveryCost}` },
+                      { label: 'GST (18%)', value: `₹${estimate.gst?.toLocaleString('en-IN')}` },
+                    ].map(({ label, value }) => (
+                      <div key={label} style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        padding: '6px 0',
+                      }}>
+                        <span style={{ fontFamily: 'var(--font-label)', fontSize: '13px', color: 'var(--color-text-muted)' }}>{label}</span>
+                        <span style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--color-text-secondary)' }}>{value}</span>
+                      </div>
+                    ))}
+                  </>
+                )}
+
                 <div style={{
                   marginTop: '16px',
                   paddingTop: '16px',
-                  borderTop: '1px solid rgba(0, 212, 255, 0.1)',
+                  borderTop: '1px solid rgba(143, 174, 126, 0.1)',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
@@ -410,8 +485,8 @@ export default function PrintJobForm({ onSubmit }) {
                   <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-text-primary)' }}>
                     Total (incl. GST)
                   </span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '24px', color: 'var(--color-accent-cyan)' }}>
-                    Calculated at checkout
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '24px', color: 'var(--color-accent-sage)' }}>
+                    {estimate ? `₹${estimate.totalCost?.toLocaleString('en-IN')}` : 'Loading...'}
                   </span>
                 </div>
               </div>
@@ -426,7 +501,7 @@ export default function PrintJobForm({ onSubmit }) {
         justifyContent: 'space-between',
         marginTop: '32px',
         paddingTop: '24px',
-        borderTop: '1px solid rgba(0, 212, 255, 0.06)',
+        borderTop: '1px solid rgba(143, 174, 126, 0.06)',
       }}>
         <Button
           variant="ghost"

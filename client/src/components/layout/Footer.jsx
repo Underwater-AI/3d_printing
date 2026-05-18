@@ -6,8 +6,7 @@ export default function Footer() {
       <div className="footer-inner">
         <div className="footer-brand">
           <div className="footer-logo">
-            <span className="logo-icon">◆</span>
-            <span className="logo-text">Underwater AI</span>
+            <img src="/assets/ui/logo.svg" alt="Underwater AI" className="footer-logo-img" />
           </div>
           <p className="footer-tagline">Precision 3D Printing · IISER Kolkata</p>
           <p className="footer-address">
@@ -39,14 +38,20 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} Underwater AI · Funded by MeitY, Government of India</p>
+        <div className="footer-credits">
+          <p>© {new Date().getFullYear()} Underwater AI · Funded by MeitY, Government of India</p>
+          <p className="footer-attribution">
+            Printer product images courtesy of <a href="https://bambulab.com" target="_blank" rel="noopener noreferrer">Bambu Lab</a>.
+            Underwater AI is an independent service — not affiliated with or endorsed by Bambu Lab.
+          </p>
+        </div>
         <p className="footer-tech">Powered by Bambu Lab P2S</p>
       </div>
 
       <style>{`
         .footer {
           background: var(--color-bg-secondary);
-          border-top: 1px solid rgba(0, 212, 255, 0.06);
+          border-top: 1px solid rgba(143, 174, 126, 0.06);
           padding: 64px 24px 32px;
           margin-top: 120px;
         }
@@ -58,22 +63,19 @@ export default function Footer() {
           gap: 64px;
         }
         .footer-brand .footer-logo {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-family: var(--font-display);
-          font-weight: 700;
-          font-size: 20px;
-          color: var(--color-text-primary);
           margin-bottom: 12px;
         }
-        .footer-brand .logo-icon { color: var(--color-accent-cyan); }
+        .footer-logo-img {
+          height: 40px;
+          width: auto;
+        }
         .footer-tagline {
-          font-family: var(--font-label);
-          font-size: 13px;
-          color: var(--color-accent-cyan);
+          font-family: var(--font-body);
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--color-accent-sage);
           margin-bottom: 16px;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.02em;
         }
         .footer-address {
           font-size: 14px;
@@ -86,12 +88,10 @@ export default function Footer() {
           gap: 32px;
         }
         .footer-col h4 {
-          font-family: var(--font-label);
-          font-size: 12px;
-          font-weight: 500;
-          color: var(--color-text-muted);
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
+          font-family: var(--font-display);
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--color-text-primary);
           margin-bottom: 16px;
         }
         .footer-col a {
@@ -102,20 +102,34 @@ export default function Footer() {
           padding: 4px 0;
           transition: color 0.15s ease;
         }
-        .footer-col a:hover { color: var(--color-accent-cyan); }
+        .footer-col a:hover { color: var(--color-accent-sage); }
         .footer-bottom {
           max-width: 1280px;
           margin: 48px auto 0;
           padding-top: 24px;
-          border-top: 1px solid rgba(0, 212, 255, 0.06);
+          border-top: 1px solid rgba(143, 174, 126, 0.06);
           display: flex;
           justify-content: space-between;
-          align-items: center;
+          align-items: flex-start;
         }
-        .footer-bottom p {
+        .footer-credits { flex: 1; }
+        .footer-credits p {
           font-size: 13px;
           color: var(--color-text-muted);
+          margin: 0;
         }
+        .footer-attribution {
+          font-size: 11px !important;
+          color: var(--color-text-muted) !important;
+          opacity: 0.6;
+          margin-top: 4px !important;
+          max-width: 500px;
+        }
+        .footer-attribution a {
+          color: var(--color-accent-sage);
+          text-decoration: none;
+        }
+        .footer-attribution a:hover { text-decoration: underline; }
         .footer-tech {
           font-family: var(--font-label);
           font-size: 12px;

@@ -48,9 +48,9 @@ export default function Modal({ isOpen, onClose, title, children, wide = false }
               maxHeight: '85vh',
               overflowY: 'auto',
               background: 'var(--color-bg-card)',
-              border: '1px solid rgba(0, 212, 255, 0.1)',
+              border: '1px solid rgba(143, 174, 126, 0.1)',
               borderRadius: '12px',
-              boxShadow: '0 8px 64px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 212, 255, 0.05)',
+              boxShadow: '0 8px 64px rgba(0, 0, 0, 0.6), 0 0 40px rgba(143, 174, 126, 0.05)',
             }}
           >
             {title && (
@@ -59,7 +59,7 @@ export default function Modal({ isOpen, onClose, title, children, wide = false }
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '20px 24px',
-                borderBottom: '1px solid rgba(0, 212, 255, 0.08)',
+                borderBottom: '1px solid rgba(143, 174, 126, 0.08)',
               }}>
                 <h3 style={{
                   margin: 0,

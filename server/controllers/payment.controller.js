@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const razorpay = require('../config/razorpay');
+const getRazorpay = require('../config/razorpay');
 const Payment = require('../models/Payment');
 const PrintJob = require('../models/PrintJob');
 const { sendOrderConfirmation, sendAdminAlert } = require('../utils/email');
@@ -12,7 +12,7 @@ exports.createOrder = async (req, res, next) => {
 
     const amountPaise = Math.round(job.totalCost * 100);
 
-    const order = await razorpay.orders.create({
+    const order = await getRazorpay().orders.create({
       amount: amountPaise,
       currency: 'INR',
       receipt: `UAI-${jobId}`,

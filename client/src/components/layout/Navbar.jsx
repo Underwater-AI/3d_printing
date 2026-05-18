@@ -6,6 +6,7 @@ const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/order', label: 'Order' },
   { path: '/gallery', label: 'Gallery' },
+  { path: '/assets', label: 'Free Assets' },
   { path: '/pricing', label: 'Pricing' },
   { path: '/track', label: 'Track' },
   { path: '/about', label: 'About' },
@@ -19,8 +20,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-inner">
         <Link to="/" className="navbar-logo">
-          <span className="logo-icon">◆</span>
-          <span className="logo-text">Underwater AI</span>
+          <img src="/assets/ui/logo.svg" alt="Underwater AI" className="logo-img" />
         </Link>
 
         <div className="navbar-links">
@@ -83,9 +83,9 @@ export default function Navbar() {
           left: 0;
           right: 0;
           z-index: 100;
-          background: rgba(0, 8, 20, 0.85);
+          background: rgba(26, 22, 18, 0.85);
           backdrop-filter: blur(12px);
-          border-bottom: 1px solid rgba(0, 212, 255, 0.08);
+          border-bottom: 1px solid rgba(143, 174, 126, 0.08);
         }
         .navbar-inner {
           max-width: 1280px;
@@ -99,16 +99,12 @@ export default function Navbar() {
         .navbar-logo {
           display: flex;
           align-items: center;
-          gap: 10px;
           text-decoration: none;
-          font-family: var(--font-display);
-          font-weight: 700;
-          font-size: 18px;
-          color: var(--color-text-primary);
+          height: 36px;
         }
-        .logo-icon {
-          color: var(--color-accent-cyan);
-          font-size: 22px;
+        .logo-img {
+          height: 36px;
+          width: auto;
         }
         .navbar-links {
           display: flex;
@@ -116,37 +112,37 @@ export default function Navbar() {
         }
         .nav-link {
           padding: 8px 14px;
-          font-family: var(--font-label);
-          font-size: 13px;
+          font-family: var(--font-body);
+          font-size: 14px;
           font-weight: 500;
           color: var(--color-text-secondary);
           text-decoration: none;
           border-radius: 6px;
           transition: all 0.15s ease;
-          letter-spacing: 0.02em;
+          letter-spacing: 0.01em;
         }
         .nav-link:hover {
           color: var(--color-text-primary);
-          background: rgba(0, 212, 255, 0.06);
+          background: rgba(143, 174, 126, 0.06);
         }
         .nav-link.active {
-          color: var(--color-accent-cyan);
-          background: rgba(0, 212, 255, 0.1);
+          color: var(--color-accent-sage);
+          background: rgba(143, 174, 126, 0.1);
         }
         .navbar-cta {
           padding: 8px 20px;
-          font-family: var(--font-label);
-          font-size: 13px;
-          font-weight: 500;
-          color: #000814;
-          background: var(--color-accent-cyan);
+          font-family: var(--font-body);
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--color-text-inverse);
+          background: var(--color-accent-sage);
           text-decoration: none;
           border-radius: 6px;
           transition: all 0.15s ease;
         }
         .navbar-cta:hover {
-          background: #33ddff;
-          box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+          background: #a0be8f;
+          box-shadow: 0 0 20px rgba(143, 174, 126, 0.3);
         }
         .navbar-burger {
           display: none;
@@ -172,12 +168,12 @@ export default function Navbar() {
           flex-direction: column;
           padding: 16px 24px;
           gap: 4px;
-          background: rgba(0, 8, 20, 0.95);
-          border-bottom: 1px solid rgba(0, 212, 255, 0.08);
+          background: rgba(26, 22, 18, 0.95);
+          border-bottom: 1px solid rgba(143, 174, 126, 0.08);
         }
         .nav-link-mobile {
           padding: 12px 16px;
-          font-family: var(--font-label);
+          font-family: var(--font-body);
           font-size: 15px;
           color: var(--color-text-secondary);
           text-decoration: none;
@@ -185,17 +181,17 @@ export default function Navbar() {
           transition: all 0.15s ease;
         }
         .nav-link-mobile:hover, .nav-link-mobile.active {
-          color: var(--color-accent-cyan);
-          background: rgba(0, 212, 255, 0.06);
+          color: var(--color-accent-sage);
+          background: rgba(143, 174, 126, 0.06);
         }
         .nav-cta-mobile {
           margin-top: 8px;
           padding: 12px 16px;
-          font-family: var(--font-label);
+          font-family: var(--font-body);
           font-size: 15px;
-          font-weight: 500;
-          color: #000814;
-          background: var(--color-accent-cyan);
+          font-weight: 600;
+          color: var(--color-text-inverse);
+          background: var(--color-accent-sage);
           text-decoration: none;
           border-radius: 6px;
           text-align: center;

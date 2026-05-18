@@ -54,8 +54,8 @@ export default function MaterialSelector({ selected, onSelect, color, onColorCha
               alignItems: 'flex-start',
               gap: '6px',
               padding: '14px 16px',
-              background: selected === mat.id ? 'rgba(0, 212, 255, 0.08)' : 'var(--color-bg-elevated)',
-              border: selected === mat.id ? '1px solid rgba(0, 212, 255, 0.3)' : '1px solid rgba(0, 212, 255, 0.06)',
+              background: selected === mat.id ? 'rgba(143, 174, 126, 0.08)' : 'var(--color-bg-elevated)',
+              border: selected === mat.id ? '1px solid rgba(143, 174, 126, 0.3)' : '1px solid rgba(143, 174, 126, 0.06)',
               borderRadius: '8px',
               cursor: 'pointer',
               textAlign: 'left',
@@ -65,7 +65,7 @@ export default function MaterialSelector({ selected, onSelect, color, onColorCha
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
               <span style={{
                 fontSize: '18px',
-                color: selected === mat.id ? 'var(--color-accent-cyan)' : 'var(--color-text-muted)',
+                color: selected === mat.id ? 'var(--color-accent-sage)' : 'var(--color-text-muted)',
               }}>
                 {mat.icon}
               </span>
@@ -73,7 +73,7 @@ export default function MaterialSelector({ selected, onSelect, color, onColorCha
                 fontFamily: 'var(--font-body)',
                 fontSize: '14px',
                 fontWeight: 500,
-                color: selected === mat.id ? 'var(--color-accent-cyan)' : 'var(--color-text-primary)',
+                color: selected === mat.id ? 'var(--color-accent-sage)' : 'var(--color-text-primary)',
               }}>
                 {mat.name}
               </span>
@@ -90,7 +90,7 @@ export default function MaterialSelector({ selected, onSelect, color, onColorCha
                 fontFamily: 'var(--font-label)',
                 fontSize: '12px',
                 fontWeight: 500,
-                color: 'var(--color-accent-cyan)',
+                color: 'var(--color-accent-sage)',
               }}>
                 {mat.price}
               </span>
@@ -125,9 +125,9 @@ export default function MaterialSelector({ selected, onSelect, color, onColorCha
               height: '36px',
               borderRadius: '8px',
               background: c.hex,
-              border: color === c.name ? '2px solid var(--color-accent-cyan)' : '2px solid rgba(0, 212, 255, 0.1)',
+              border: color === c.name ? '2px solid var(--color-accent-sage)' : '2px solid rgba(143, 174, 126, 0.1)',
               cursor: 'pointer',
-              boxShadow: color === c.name ? '0 0 12px rgba(0, 212, 255, 0.3)' : 'none',
+              boxShadow: color === c.name ? '0 0 12px rgba(143, 174, 126, 0.3)' : 'none',
             }}
           />
         ))}

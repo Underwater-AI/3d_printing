@@ -14,7 +14,7 @@ export default function About() {
         <p style={{
           fontFamily: 'var(--font-label)',
           fontSize: '12px',
-          color: 'var(--color-accent-cyan)',
+          color: 'var(--color-accent-sage)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: '8px',
@@ -45,7 +45,7 @@ export default function About() {
 
       <div style={{
         background: 'var(--color-bg-card)',
-        border: '1px solid rgba(0, 212, 255, 0.08)',
+        border: '1px solid rgba(143, 174, 126, 0.08)',
         borderRadius: '12px',
         padding: '32px',
         marginBottom: '48px',
@@ -71,6 +71,102 @@ export default function About() {
         </p>
       </div>
 
+      {/* Printer Showcase */}
+      <div style={{
+        marginBottom: '48px',
+        background: 'var(--color-bg-card)',
+        border: '1px solid rgba(143, 174, 126, 0.08)',
+        borderRadius: '12px',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '0',
+        }}>
+          <img
+            src="/assets/printer/feature/highlight-5.jpg"
+            alt="Bambu Lab P2S — detailed view"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <p style={{
+              fontFamily: 'var(--font-label)',
+              fontSize: '11px',
+              color: 'var(--color-accent-sage)',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              marginBottom: '8px',
+            }}>
+              Our Printer
+            </p>
+            <h3 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '24px',
+              fontWeight: 700,
+              color: 'var(--color-text-primary)',
+              margin: '0 0 12px',
+            }}>
+              Bambu Lab P2S
+            </h3>
+            <p style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '14px',
+              color: 'var(--color-text-secondary)',
+              lineHeight: 1.6,
+              margin: '0 0 20px',
+            }}>
+              CoreXY printer with 600mm/s speed, AI-powered failure detection, and 4-color AMS
+              support. 256³mm build volume with automatic flow calibration and vibration compensation.
+            </p>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '10px',
+            }}>
+              {[
+                ['Build Volume', '256³ mm'],
+                ['Max Speed', '600 mm/s'],
+                ['Nozzle', '0.4 mm'],
+                ['AMS Colors', '4'],
+              ].map(([label, value]) => (
+                <div key={label} style={{
+                  padding: '10px',
+                  background: 'var(--color-bg-elevated)',
+                  borderRadius: '6px',
+                }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--color-text-primary)' }}>
+                    {value}
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-label)', fontSize: '10px', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>
+                    {label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div style={{
+          padding: '12px 20px',
+          borderTop: '1px solid rgba(143, 174, 126, 0.06)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+          <span style={{ fontFamily: 'var(--font-label)', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+            Product images courtesy of Bambu Lab. Not affiliated with or endorsed by Bambu Lab.
+          </span>
+          <a
+            href="https://bambulab.com/en-in/p2s"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontFamily: 'var(--font-label)', fontSize: '11px', color: 'var(--color-accent-sage)', textDecoration: 'none' }}
+          >
+            bambulab.com →
+          </a>
+        </div>
+      </div>
+
       {/* Team */}
       <h2 style={{
         fontFamily: 'var(--font-display)',
@@ -94,7 +190,7 @@ export default function About() {
             transition={{ duration: 0.3, delay: i * 0.1 }}
             style={{
               background: 'var(--color-bg-card)',
-              border: '1px solid rgba(0, 212, 255, 0.06)',
+              border: '1px solid rgba(143, 174, 126, 0.06)',
               borderRadius: '12px',
               padding: '24px',
               textAlign: 'center',
@@ -104,15 +200,15 @@ export default function About() {
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              background: 'rgba(0, 212, 255, 0.1)',
-              border: '1px solid rgba(0, 212, 255, 0.2)',
+              background: 'rgba(143, 174, 126, 0.1)',
+              border: '1px solid rgba(143, 174, 126, 0.2)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontFamily: 'var(--font-display)',
               fontSize: '18px',
               fontWeight: 700,
-              color: 'var(--color-accent-cyan)',
+              color: 'var(--color-accent-sage)',
               margin: '0 auto 12px',
             }}>
               {initials}
@@ -129,7 +225,7 @@ export default function About() {
             <p style={{
               fontFamily: 'var(--font-label)',
               fontSize: '12px',
-              color: 'var(--color-accent-cyan)',
+              color: 'var(--color-accent-sage)',
               margin: 0,
             }}>
               {role} · BS-MS, IISER Kolkata
@@ -149,7 +245,7 @@ export default function About() {
       </h2>
       <div style={{
         background: 'var(--color-bg-card)',
-        border: '1px solid rgba(0, 212, 255, 0.08)',
+        border: '1px solid rgba(143, 174, 126, 0.08)',
         borderRadius: '12px',
         overflow: 'hidden',
         marginBottom: '32px',
@@ -201,7 +297,7 @@ export default function About() {
             fontSize: '14px',
             fontWeight: 500,
             color: '#000814',
-            background: 'var(--color-accent-cyan)',
+            background: 'var(--color-accent-sage)',
             textDecoration: 'none',
             borderRadius: '8px',
             transition: 'all 0.2s ease',

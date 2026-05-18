@@ -16,7 +16,6 @@ FROM node:20-alpine
 WORKDIR /app
 COPY --from=builder /app/server ./server
 COPY --from=builder /app/client/dist ./client/dist
-COPY --from=builder /app/client/node_modules ./client/node_modules
 RUN mkdir -p uploads
 
 ENV NODE_ENV=production

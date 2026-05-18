@@ -37,7 +37,7 @@ export async function initiatePayment({
     currency,
     name: 'Underwater AI',
     description: '3D Printing Service',
-    image: '/assets/ui/logo.png',
+    image: '/assets/ui/logo.svg',
     order_id: orderId,
     handler: async (response) => {
       try {
@@ -63,7 +63,7 @@ export async function initiatePayment({
       contact: customer.phone || '',
     },
     notes: { jobId },
-    theme: { color: '#00d4ff' },
+    theme: { color: '#8fae7e' },
     modal: {
       ondismiss: () => onError('Payment cancelled'),
     },

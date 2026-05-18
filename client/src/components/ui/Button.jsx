@@ -2,15 +2,15 @@ import { motion } from 'framer-motion';
 
 const variants = {
   primary: {
-    background: 'var(--color-accent-cyan)',
+    background: 'var(--color-accent-sage)',
     color: '#000814',
-    hoverBg: '#33ddff',
-    hoverShadow: '0 0 24px rgba(0, 212, 255, 0.35)',
+    hoverBg: '#8fae7e',
+    hoverShadow: '0 0 24px rgba(143, 174, 126, 0.35)',
   },
   secondary: {
     background: 'transparent',
-    color: 'var(--color-accent-cyan)',
-    hoverBg: 'rgba(0, 212, 255, 0.08)',
+    color: 'var(--color-accent-sage)',
+    hoverBg: 'rgba(143, 174, 126, 0.08)',
     hoverShadow: 'none',
   },
   ghost: {
@@ -68,7 +68,7 @@ export default function Button({
         letterSpacing: '0.02em',
         background: v.background,
         color: v.color,
-        border: variant === 'secondary' ? '1px solid rgba(0, 212, 255, 0.3)' : 'none',
+        border: variant === 'secondary' ? '1px solid rgba(143, 174, 126, 0.3)' : 'none',
         borderRadius: '6px',
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.5 : 1,

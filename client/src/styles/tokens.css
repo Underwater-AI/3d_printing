@@ -1,38 +1,38 @@
 /* ==========================================================================
    Design Tokens — Underwater AI 3D Printing Service
-   Dark navy base, sharp cyan/electric blue accents
+   Warm espresso base, sage green & gold accents
    ========================================================================== */
 
 :root {
   /* ---- Backgrounds ---- */
-  --color-bg-primary:    #000814;
-  --color-bg-secondary:  #0a0f1e;
-  --color-bg-card:       #0d1526;
-  --color-bg-elevated:   #111d35;
-  --color-bg-input:      #0b1222;
+  --color-bg-primary:    #1a1612;
+  --color-bg-secondary:  #231f1a;
+  --color-bg-card:       #2a2520;
+  --color-bg-elevated:   #342e28;
+  --color-bg-input:      #1e1a16;
 
   /* ---- Brand Accents ---- */
-  --color-accent-cyan:   #00d4ff;
-  --color-accent-blue:   #0066ff;
-  --color-accent-glow:   rgba(0, 212, 255, 0.15);
-  --color-accent-glow-strong: rgba(0, 212, 255, 0.3);
+  --color-accent-sage:   #8fae7e;
+  --color-accent-gold:   #c4a882;
+  --color-accent-glow:   rgba(143, 174, 126, 0.15);
+  --color-accent-glow-strong: rgba(143, 174, 126, 0.3);
 
   /* ---- Text ---- */
-  --color-text-primary:  #f0f4ff;
-  --color-text-secondary:#8899bb;
-  --color-text-muted:    #445577;
-  --color-text-inverse:  #000814;
-  --color-text-accent:   #00d4ff;
+  --color-text-primary:  #f5f0eb;
+  --color-text-secondary:#b5a99a;
+  --color-text-muted:    #6b5f54;
+  --color-text-inverse:  #1a1612;
+  --color-text-accent:   #8fae7e;
 
   /* ---- Status ---- */
-  --color-success:       #00ff88;
-  --color-warning:       #ffaa00;
-  --color-error:         #ff3355;
-  --color-pending:       #ffdd00;
-  --color-info:          #00d4ff;
+  --color-success:       #7eb87e;
+  --color-warning:       #d4a853;
+  --color-error:         #c46b5e;
+  --color-pending:       #d4b85a;
+  --color-info:          #8fae7e;
 
   /* ---- Printer Brand ---- */
-  --color-bambu-orange:  #ff6b35;
+  --color-bambu-orange:  #d4845a;
 
   /* ---- Spacing Scale ---- */
   --space-xs:   4px;
@@ -43,25 +43,23 @@
   --space-2xl:  128px;
 
   /* ---- Typography ---- */
-  --font-display: 'Space Mono', 'Courier New', monospace;
-  --font-body:    'DM Sans', system-ui, -apple-system, sans-serif;
-  --font-label:   'IBM Plex Mono', 'Fira Code', monospace;
+  --font-display: 'Cormorant Garamond', 'Georgia', serif;
+  --font-body:    'Outfit', system-ui, -apple-system, sans-serif;
+  --font-label:   'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Fluid type scale — smoothly interpolates from 375px to 1280px viewport
-     Min values target mobile comfort; max values target desktop impact.
-     clamp(min, preferred, max) eliminates the need for media-query overrides. */
-  --text-xs:    0.75rem;                                    /* 12px — static */
-  --text-sm:    0.875rem;                                   /* 14px — static */
-  --text-base:  1rem;                                       /* 16px — static */
-  --text-lg:    clamp(1.0625rem, 1.035rem + 0.11vw, 1.125rem);  /* 17px → 18px */
-  --text-xl:    clamp(1.125rem, 1.07rem + 0.22vw, 1.25rem);     /* 18px → 20px */
-  --text-2xl:   clamp(1.25rem, 1.145rem + 0.44vw, 1.5rem);      /* 20px → 24px */
-  --text-3xl:   clamp(1.5rem, 1.29rem + 0.88vw, 2rem);          /* 24px → 32px */
-  --text-4xl:   clamp(1.875rem, 1.615rem + 1.1vw, 2.5rem);      /* 30px → 40px */
-  --text-5xl:   clamp(2.25rem, 1.73rem + 2.21vw, 3.5rem);       /* 36px → 56px */
-  --text-6xl:   clamp(2.75rem, 2.025rem + 3.09vw, 4.5rem);      /* 44px → 72px */
+  /* Fluid type scale — smoothly interpolates from 375px to 1280px viewport */
+  --text-xs:    0.75rem;
+  --text-sm:    0.875rem;
+  --text-base:  1rem;
+  --text-lg:    clamp(1.0625rem, 1.035rem + 0.11vw, 1.125rem);
+  --text-xl:    clamp(1.125rem, 1.07rem + 0.22vw, 1.25rem);
+  --text-2xl:   clamp(1.25rem, 1.145rem + 0.44vw, 1.5rem);
+  --text-3xl:   clamp(1.5rem, 1.29rem + 0.88vw, 2rem);
+  --text-4xl:   clamp(1.875rem, 1.615rem + 1.1vw, 2.5rem);
+  --text-5xl:   clamp(2.25rem, 1.73rem + 2.21vw, 3.5rem);
+  --text-6xl:   clamp(2.75rem, 2.025rem + 3.09vw, 4.5rem);
 
-  /* Line-height — context-aware values */
+  /* Line-height */
   --leading-none:    1;
   --leading-tight:   1.1;
   --leading-snug:    1.25;
@@ -69,7 +67,7 @@
   --leading-relaxed: 1.65;
   --leading-loose:   1.8;
 
-  /* Letter-spacing — negative for display, positive for labels */
+  /* Letter-spacing */
   --tracking-tighter: -0.03em;
   --tracking-tight:   -0.02em;
   --tracking-snug:    -0.01em;
@@ -78,17 +76,19 @@
   --tracking-wider:   0.08em;
   --tracking-widest:  0.12em;
 
-  /* Font weights — semantic names */
+  /* Font weights */
+  --weight-light:   300;
   --weight-regular:  400;
   --weight-medium:   500;
   --weight-semibold: 600;
   --weight-bold:     700;
 
   /* ---- Borders ---- */
-  --border-subtle:  1px solid rgba(0, 212, 255, 0.1);
-  --border-glow:    1px solid rgba(0, 212, 255, 0.4);
-  --border-strong:  1px solid rgba(0, 212, 255, 0.6);
-  --border-muted:   1px solid rgba(255, 255, 255, 0.06);
+  --border-subtle:  1px solid rgba(143, 174, 126, 0.1);
+  --border-glow:    1px solid rgba(143, 174, 126, 0.4);
+  --border-strong:  1px solid rgba(143, 174, 126, 0.6);
+  --border-muted:   1px solid rgba(245, 240, 235, 0.06);
+  --border-warm:    1px solid rgba(196, 168, 130, 0.15);
 
   /* ---- Border Radius ---- */
   --radius-sm:   4px;
@@ -99,12 +99,13 @@
   --radius-full: 9999px;
 
   /* ---- Shadows ---- */
-  --shadow-card:   0 4px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow:   0 0 40px rgba(0, 212, 255, 0.2);
-  --shadow-glow-sm:0 0 16px rgba(0, 212, 255, 0.15);
-  --shadow-glow-lg:0 0 60px rgba(0, 212, 255, 0.25);
-  --shadow-elevated: 0 8px 48px rgba(0, 0, 0, 0.7);
-  --shadow-inset:  inset 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-card:   0 4px 32px rgba(10, 8, 6, 0.6);
+  --shadow-glow:   0 0 40px rgba(143, 174, 126, 0.15);
+  --shadow-glow-sm:0 0 16px rgba(143, 174, 126, 0.12);
+  --shadow-glow-lg:0 0 60px rgba(143, 174, 126, 0.2);
+  --shadow-elevated: 0 8px 48px rgba(10, 8, 6, 0.7);
+  --shadow-inset:  inset 0 1px 2px rgba(10, 8, 6, 0.4);
+  --shadow-warm:   0 4px 24px rgba(196, 168, 130, 0.08);
 
   /* ---- Transitions ---- */
   --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
@@ -131,7 +132,6 @@
   --container-padding: var(--space-lg);
 }
 
-/* Smaller padding on mobile (type scale handled by fluid clamp) */
 @media (max-width: 768px) {
   :root {
     --container-padding: var(--space-md);

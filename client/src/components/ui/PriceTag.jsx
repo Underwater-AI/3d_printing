@@ -14,8 +14,8 @@ export default function PriceTag({ amount, label, size = 'md', accent = false })
       alignItems: 'center',
       gap: '4px',
       padding: s.padding,
-      background: accent ? 'rgba(0, 212, 255, 0.08)' : 'var(--color-bg-elevated)',
-      border: accent ? '1px solid rgba(0, 212, 255, 0.2)' : '1px solid rgba(0, 212, 255, 0.06)',
+      background: accent ? 'rgba(143, 174, 126, 0.08)' : 'var(--color-bg-elevated)',
+      border: accent ? '1px solid rgba(143, 174, 126, 0.2)' : '1px solid rgba(143, 174, 126, 0.06)',
       borderRadius: '8px',
     }}>
       {label && (
@@ -34,7 +34,7 @@ export default function PriceTag({ amount, label, size = 'md', accent = false })
         fontFamily: 'var(--font-display)',
         fontSize: s.value,
         fontWeight: 700,
-        color: accent ? 'var(--color-accent-cyan)' : 'var(--color-text-primary)',
+        color: accent ? 'var(--color-accent-sage)' : 'var(--color-text-primary)',
         lineHeight: 1,
       }}>
         ₹{typeof amount === 'number' ? amount.toLocaleString('en-IN') : amount}

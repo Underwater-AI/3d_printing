@@ -15,42 +15,66 @@ const statusLabels = {
   delivered: 'Delivered',
 };
 
-// Mock order data
-const mockOrder = {
-  _id: 'UAI-2025-00042',
-  status: 'printing',
-  customerName: 'Shuvam Banerji Seal',
-  material: 'PLA+ White',
-  layerHeight: 0.20,
-  infill: 20,
-  quantity: 2,
-  totalCost: 850,
-  createdAt: '2025-05-12T09:04:00Z',
-  timeline: [
-    { status: 'pending', time: 'May 12, 2:34 PM' },
-    { status: 'confirmed', time: 'May 12, 2:35 PM' },
-    { status: 'printing', time: 'May 12, 3:10 PM' },
-  ],
-};
+function formatDate(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) + ', ' +
+    d.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true });
+}
 
 export default function Track() {
   const [orderId, setOrderId] = useState('');
   const [email, setEmail] = useState('');
   const [order, setOrder] = useState(null);
   const [searched, setSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
+    if (!orderId.trim()) return;
     setSearched(true);
-    // Mock: show order if ID contains "42" or email is provided
-    if (orderId.includes('42') || email) {
-      setOrder(mockOrder);
-    } else {
-      setOrder(null);
+    setLoading(true);
+    setError('');
+    setOrder(null);
+
+    try {
+      const params = new URLSearchParams();
+      if (email.trim()) params.set('email', email.trim());
+      const res = await fetch(`/api/jobs/track/${orderId.trim()}?${params}`);
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Order not found');
+      }
+      const data = await res.json();
+      setOrder(data.job);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Build timeline from status history
+  const buildTimeline = (job) => {
+    const timeline = [];
+    const statusOrder = ['pending', 'confirmed', 'printing', 'quality_check', 'ready', 'dispatched', 'delivered'];
+    const idx = statusOrder.indexOf(job.status);
+
+    for (let i = 0; i <= idx; i++) {
+      const s = statusOrder[i];
+      let time = null;
+      if (s === 'pending') time = job.createdAt;
+      else if (s === 'confirmed' && job.paidAt) time = job.paidAt;
+      else if (s === 'printing' && job.printedAt) time = job.printedAt;
+      else if (s === 'delivered' && job.deliveredAt) time = job.deliveredAt;
+      timeline.push({ status: s, time: formatDate(time) });
+    }
+    return timeline;
+  };
+
   const currentIdx = order ? statusSteps.indexOf(order.status) : -1;
+  const timeline = order ? buildTimeline(order) : [];
 
   return (
     <div style={{ paddingTop: '100px', maxWidth: '700px', margin: '0 auto', padding: '100px 24px 80px' }}>
@@ -58,7 +82,7 @@ export default function Track() {
         <p style={{
           fontFamily: 'var(--font-label)',
           fontSize: '12px',
-          color: 'var(--color-accent-cyan)',
+          color: 'var(--color-accent-sage)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: '8px',
@@ -79,7 +103,7 @@ export default function Track() {
       {/* Search form */}
       <form onSubmit={handleSearch} style={{
         background: 'var(--color-bg-card)',
-        border: '1px solid rgba(0, 212, 255, 0.08)',
+        border: '1px solid rgba(143, 174, 126, 0.08)',
         borderRadius: '12px',
         padding: '24px',
         marginBottom: '32px',
@@ -102,12 +126,13 @@ export default function Track() {
               type="text"
               value={orderId}
               onChange={(e) => setOrderId(e.target.value)}
-              placeholder="UAI-2025-XXXXX"
+              placeholder="Paste your Order ID"
+              required
               style={{
                 width: '100%',
                 padding: '10px 14px',
                 background: 'var(--color-bg-elevated)',
-                border: '1px solid rgba(0, 212, 255, 0.1)',
+                border: '1px solid rgba(143, 174, 126, 0.1)',
                 borderRadius: '6px',
                 color: 'var(--color-text-primary)',
                 fontFamily: 'var(--font-body)',
@@ -128,7 +153,7 @@ export default function Track() {
               letterSpacing: '0.06em',
               marginBottom: '6px',
             }}>
-              Email
+              Email (optional verification)
             </label>
             <input
               type="email"
@@ -139,7 +164,7 @@ export default function Track() {
                 width: '100%',
                 padding: '10px 14px',
                 background: 'var(--color-bg-elevated)',
-                border: '1px solid rgba(0, 212, 255, 0.1)',
+                border: '1px solid rgba(143, 174, 126, 0.1)',
                 borderRadius: '6px',
                 color: 'var(--color-text-primary)',
                 fontFamily: 'var(--font-body)',
@@ -150,26 +175,41 @@ export default function Track() {
             />
           </div>
         </div>
-        <button type="submit" style={{
+        <button type="submit" disabled={loading} style={{
           padding: '10px 24px',
           fontFamily: 'var(--font-label)',
           fontSize: '13px',
           fontWeight: 500,
           color: '#000814',
-          background: 'var(--color-accent-cyan)',
+          background: loading ? 'rgba(143, 174, 126, 0.5)' : 'var(--color-accent-sage)',
           border: 'none',
           borderRadius: '6px',
-          cursor: 'pointer',
+          cursor: loading ? 'wait' : 'pointer',
         }}>
-          Track Order
+          {loading ? 'Searching...' : 'Track Order'}
         </button>
       </form>
 
-      {/* Results */}
-      {searched && !order && (
+      {/* Error */}
+      {error && (
         <div style={{
           background: 'var(--color-bg-card)',
-          border: '1px solid rgba(0, 212, 255, 0.08)',
+          border: '1px solid rgba(255, 51, 85, 0.2)',
+          borderRadius: '12px',
+          padding: '40px',
+          textAlign: 'center',
+        }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--color-error)' }}>
+            {error}
+          </p>
+        </div>
+      )}
+
+      {/* No results */}
+      {searched && !order && !loading && !error && (
+        <div style={{
+          background: 'var(--color-bg-card)',
+          border: '1px solid rgba(143, 174, 126, 0.08)',
           borderRadius: '12px',
           padding: '40px',
           textAlign: 'center',
@@ -183,7 +223,7 @@ export default function Track() {
       {order && (
         <div style={{
           background: 'var(--color-bg-card)',
-          border: '1px solid rgba(0, 212, 255, 0.08)',
+          border: '1px solid rgba(143, 174, 126, 0.08)',
           borderRadius: '12px',
           padding: '32px',
         }}>
@@ -195,14 +235,14 @@ export default function Track() {
                 color: 'var(--color-text-primary)',
                 margin: '0 0 4px',
               }}>
-                Order #{order._id}
+                Order #UAI-{order._id.slice(-6).toUpperCase()}
               </h2>
               <p style={{
                 fontFamily: 'var(--font-label)',
                 fontSize: '13px',
                 color: 'var(--color-text-muted)',
               }}>
-                {order.material} · {order.layerHeight}mm · {order.infill}% infill × {order.quantity}
+                {order.material} · {order.layerHeight}mm · {order.infill}% infill x{order.quantity}
               </p>
             </div>
             <Badge status={order.status} />
@@ -213,7 +253,7 @@ export default function Track() {
             {statusSteps.map((step, i) => {
               const completed = i <= currentIdx;
               const isCurrent = i === currentIdx;
-              const timelineEntry = order.timeline.find((t) => t.status === step);
+              const entry = timeline.find((t) => t.status === step);
 
               return (
                 <div key={step} style={{
@@ -231,7 +271,7 @@ export default function Track() {
                       top: '20px',
                       width: '2px',
                       height: 'calc(100% - 4px)',
-                      background: completed ? 'var(--color-accent-cyan)' : 'rgba(0, 212, 255, 0.1)',
+                      background: completed ? 'var(--color-accent-sage)' : 'rgba(143, 174, 126, 0.1)',
                     }} />
                   )}
                   {/* Dot */}
@@ -239,8 +279,8 @@ export default function Track() {
                     width: '18px',
                     height: '18px',
                     borderRadius: '50%',
-                    background: completed ? 'var(--color-accent-cyan)' : 'var(--color-bg-elevated)',
-                    border: completed ? 'none' : '2px solid rgba(0, 212, 255, 0.15)',
+                    background: completed ? 'var(--color-accent-sage)' : 'var(--color-bg-elevated)',
+                    border: completed ? 'none' : '2px solid rgba(143, 174, 126, 0.15)',
                     flexShrink: 0,
                     display: 'flex',
                     alignItems: 'center',
@@ -248,7 +288,7 @@ export default function Track() {
                     zIndex: 1,
                   }}>
                     {completed && i < currentIdx && (
-                      <span style={{ fontSize: '10px', color: '#000814' }}>✓</span>
+                      <span style={{ fontSize: '10px', color: '#000814' }}>&#10003;</span>
                     )}
                     {isCurrent && (
                       <div style={{
@@ -269,14 +309,14 @@ export default function Track() {
                     }}>
                       {statusLabels[step]}
                     </span>
-                    {timelineEntry && (
+                    {entry?.time && (
                       <span style={{
                         fontFamily: 'var(--font-label)',
                         fontSize: '12px',
                         color: 'var(--color-text-muted)',
                         marginLeft: '12px',
                       }}>
-                        {timelineEntry.time}
+                        {entry.time}
                       </span>
                     )}
                   </div>
@@ -295,8 +335,8 @@ export default function Track() {
             <span style={{ fontFamily: 'var(--font-label)', fontSize: '13px', color: 'var(--color-text-muted)' }}>
               Total Paid
             </span>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-accent-cyan)' }}>
-              ₹{order.totalCost}
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-accent-sage)' }}>
+              {order.totalCost ? `₹${order.totalCost.toLocaleString('en-IN')}` : '—'}
             </span>
           </div>
         </div>

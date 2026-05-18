@@ -57,7 +57,7 @@ export default function Privacy() {
           <li>Request deletion of your data</li>
           <li>Withdraw consent for data processing</li>
         </ul>
-        <p>Contact: <a href="mailto:privacy@underwater-ai.com" style={{ color: 'var(--color-accent-cyan)' }}>privacy@underwater-ai.com</a></p>
+        <p>Contact: <a href="mailto:privacy@underwater-ai.com" style={{ color: 'var(--color-accent-sage)' }}>privacy@underwater-ai.com</a></p>
       </div>
     </div>
   );

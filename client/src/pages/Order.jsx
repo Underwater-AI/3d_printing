@@ -9,9 +9,6 @@ export default function Order() {
 
   const handleSubmit = (data) => {
     setJob(data);
-    toast.success('Print job submitted successfully!');
-    // In production, this would initiate Razorpay payment
-    // For now, show confirmation
   };
 
   return (
@@ -20,7 +17,7 @@ export default function Order() {
         <p style={{
           fontFamily: 'var(--font-label)',
           fontSize: '12px',
-          color: 'var(--color-accent-cyan)',
+          color: 'var(--color-accent-sage)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: '8px',
@@ -74,7 +71,7 @@ export default function Order() {
           <p style={{
             fontFamily: 'var(--font-label)',
             fontSize: '14px',
-            color: 'var(--color-accent-cyan)',
+            color: 'var(--color-accent-sage)',
             marginBottom: '24px',
           }}>
             Order ID: UAI-{job._id?.slice(-6).toUpperCase() || 'XXXXXX'}
@@ -88,7 +85,7 @@ export default function Order() {
                 fontSize: '13px',
                 fontWeight: 500,
                 color: '#000814',
-                background: 'var(--color-accent-cyan)',
+                background: 'var(--color-accent-sage)',
                 border: 'none',
                 borderRadius: '6px',
                 cursor: 'pointer',
@@ -103,9 +100,9 @@ export default function Order() {
                 fontFamily: 'var(--font-label)',
                 fontSize: '13px',
                 fontWeight: 500,
-                color: 'var(--color-accent-cyan)',
+                color: 'var(--color-accent-sage)',
                 background: 'transparent',
-                border: '1px solid rgba(0, 212, 255, 0.3)',
+                border: '1px solid rgba(143, 174, 126, 0.3)',
                 borderRadius: '6px',
                 cursor: 'pointer',
               }}
@@ -117,7 +114,7 @@ export default function Order() {
       ) : (
         <div style={{
           background: 'var(--color-bg-card)',
-          border: '1px solid rgba(0, 212, 255, 0.08)',
+          border: '1px solid rgba(143, 174, 126, 0.08)',
           borderRadius: '12px',
           padding: '32px',
         }}>

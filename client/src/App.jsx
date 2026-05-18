@@ -14,6 +14,7 @@ const About = lazy(() => import('./pages/About.jsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 const Privacy = lazy(() => import('./pages/Privacy.jsx'));
 const Terms = lazy(() => import('./pages/Terms.jsx'));
+const FreeAssets = lazy(() => import('./pages/FreeAssets.jsx'));
 
 function ProtectedRoute({ children }) {
   const user = useAuthStore((s) => s.user);
@@ -36,7 +37,7 @@ function LoadingFallback() {
       <div style={{
         width: 32,
         height: 32,
-        border: '2px solid var(--color-accent-cyan)',
+        border: '2px solid var(--color-accent-sage)',
         borderTopColor: 'transparent',
         borderRadius: '50%',
         animation: 'spin 0.8s linear infinite',
@@ -73,6 +74,7 @@ export default function App() {
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/track" element={<Track />} />
             <Route path="/about" element={<About />} />
+            <Route path="/assets" element={<FreeAssets />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route

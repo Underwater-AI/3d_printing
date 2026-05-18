@@ -1,10 +1,10 @@
 const statusColors = {
   pending: { bg: 'rgba(255, 221, 0, 0.12)', color: 'var(--color-pending)', border: 'rgba(255, 221, 0, 0.25)' },
-  confirmed: { bg: 'rgba(0, 212, 255, 0.12)', color: 'var(--color-accent-cyan)', border: 'rgba(0, 212, 255, 0.25)' },
+  confirmed: { bg: 'rgba(143, 174, 126, 0.12)', color: 'var(--color-accent-sage)', border: 'rgba(143, 174, 126, 0.25)' },
   printing: { bg: 'rgba(255, 107, 53, 0.12)', color: 'var(--color-bambu-orange)', border: 'rgba(255, 107, 53, 0.25)' },
-  quality_check: { bg: 'rgba(0, 102, 255, 0.12)', color: 'var(--color-accent-blue)', border: 'rgba(0, 102, 255, 0.25)' },
+  quality_check: { bg: 'rgba(196, 168, 130, 0.12)', color: 'var(--color-accent-gold)', border: 'rgba(196, 168, 130, 0.25)' },
   ready: { bg: 'rgba(0, 255, 136, 0.12)', color: 'var(--color-success)', border: 'rgba(0, 255, 136, 0.25)' },
-  dispatched: { bg: 'rgba(0, 212, 255, 0.12)', color: 'var(--color-accent-cyan)', border: 'rgba(0, 212, 255, 0.25)' },
+  dispatched: { bg: 'rgba(143, 174, 126, 0.12)', color: 'var(--color-accent-sage)', border: 'rgba(143, 174, 126, 0.25)' },
   delivered: { bg: 'rgba(0, 255, 136, 0.12)', color: 'var(--color-success)', border: 'rgba(0, 255, 136, 0.25)' },
   cancelled: { bg: 'rgba(255, 51, 85, 0.12)', color: 'var(--color-error)', border: 'rgba(255, 51, 85, 0.25)' },
 };

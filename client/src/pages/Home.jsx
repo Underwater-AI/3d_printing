@@ -1,7 +1,9 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import PrinterScene from '../components/three/PrinterScene';
+import { fitTextToWidth } from '../lib/pretext';
+
+const PrinterScene = lazy(() => import('../components/three/PrinterScene'));
 
 const stats = [
   { value: '256³', unit: 'mm', label: 'Build Volume' },
@@ -34,10 +36,7 @@ function HeroHeading() {
       const container = ref.current.parentElement;
       if (!container) return;
       const available = container.clientWidth - 40;
-      // Approximate: each char ~0.6em wide for Space Mono
-      const text = 'YOUR IDEA. PRINTED.';
-      const charWidth = 0.58;
-      const ideal = available / (text.length * charWidth);
+      const ideal = fitTextToWidth('YOUR IDEA. PRINTED.', available, "'Space Mono', 'Courier New', monospace", '700');
       setFontSize(Math.min(Math.max(ideal, 32), 96));
     }
     resize();
@@ -59,7 +58,7 @@ function HeroHeading() {
       }}
     >
       YOUR IDEA.<br />
-      <span style={{ color: 'var(--color-accent-cyan)' }}>PRINTED.</span>
+      <span style={{ color: 'var(--color-accent-sage)' }}>PRINTED.</span>
     </h1>
   );
 }
@@ -78,7 +77,7 @@ export default function Home() {
             <p style={{
               fontFamily: 'var(--font-label)',
               fontSize: '13px',
-              color: 'var(--color-accent-cyan)',
+              color: 'var(--color-accent-sage)',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
               marginBottom: '16px',
@@ -109,7 +108,21 @@ export default function Home() {
         </div>
 
         <div className="hero-scene">
-          <PrinterScene />
+          <div className="hero-media-wrapper">
+            <video
+              className="hero-video"
+              src="/assets/printer/video/p2s-hero.mp4"
+              poster="/assets/printer/hero/p2s-hero.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+            <div className="hero-media-overlay" />
+          </div>
+          <Suspense fallback={null}>
+            <PrinterScene />
+          </Suspense>
         </div>
       </section>
 
@@ -132,7 +145,7 @@ export default function Home() {
             <motion.div
               key={name}
               className="service-card"
-              whileHover={{ y: -4, borderColor: 'rgba(0, 212, 255, 0.25)' }}
+              whileHover={{ y: -4, borderColor: 'rgba(143, 174, 126, 0.25)' }}
               transition={{ duration: 0.2 }}
             >
               <div className="service-icon">{icon}</div>
@@ -160,13 +173,71 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Printer showcase */}
+      <section className="printer-showcase">
+        <div className="printer-showcase-inner">
+          <div className="printer-showcase-image">
+            <img src="/assets/printer/feature/highlight-1-en.jpg" alt="Bambu Lab P2S — the printer used by Underwater AI" />
+          </div>
+          <div className="printer-showcase-info">
+            <p style={{
+              fontFamily: 'var(--font-label)',
+              fontSize: '12px',
+              color: 'var(--color-accent-sage)',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              marginBottom: '12px',
+            }}>
+              Our Printer
+            </p>
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '32px',
+              fontWeight: 700,
+              color: 'var(--color-text-primary)',
+              margin: '0 0 16px',
+              lineHeight: 1.2,
+            }}>
+              Bambu Lab P2S
+            </h2>
+            <p style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '15px',
+              color: 'var(--color-text-secondary)',
+              lineHeight: 1.7,
+              marginBottom: '28px',
+              maxWidth: '460px',
+            }}>
+              CoreXY motion system with 600mm/s max speed. AI-powered first-layer detection and
+              spaghetti failure monitoring. Automatic flow calibration and vibration compensation
+              for consistent, production-grade output.
+            </p>
+            <div className="printer-specs-grid">
+              {[
+                { label: 'Build Volume', value: '256 × 256 × 256', unit: 'mm³' },
+                { label: 'Max Speed', value: '600', unit: 'mm/s' },
+                { label: 'Nozzle', value: '0.4', unit: 'mm' },
+                { label: 'Layer Resolution', value: '0.08 – 0.28', unit: 'mm' },
+                { label: 'AMS Support', value: '4', unit: 'colors' },
+                { label: 'AI Detection', value: 'Yes', unit: '' },
+              ].map(({ label, value, unit }) => (
+                <div key={label} className="printer-spec-item">
+                  <span className="printer-spec-value">{value}<span className="printer-spec-unit">{unit}</span></span>
+                  <span className="printer-spec-label">{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* About blurb */}
       <section className="section about-blurb">
         <div className="about-blurb-content">
           <p style={{
             fontFamily: 'var(--font-label)',
             fontSize: '12px',
-            color: 'var(--color-accent-cyan)',
+            color: 'var(--color-accent-sage)',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             marginBottom: '12px',
@@ -222,6 +293,23 @@ export default function Home() {
           height: 500px;
           border-radius: 16px;
           overflow: hidden;
+          position: relative;
+        }
+        .hero-media-wrapper {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+        }
+        .hero-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 0.25;
+        }
+        .hero-media-overlay {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at center, transparent 30%, var(--color-bg-primary) 80%);
         }
         .hero-cta-primary {
           display: inline-flex;
@@ -231,14 +319,14 @@ export default function Home() {
           font-size: 14px;
           font-weight: 500;
           color: #000814;
-          background: var(--color-accent-cyan);
+          background: var(--color-accent-sage);
           text-decoration: none;
           border-radius: 8px;
           transition: all 0.2s ease;
         }
         .hero-cta-primary:hover {
-          background: #33ddff;
-          box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+          background: #8fae7e;
+          box-shadow: 0 0 30px rgba(143, 174, 126, 0.3);
         }
         .hero-cta-secondary {
           display: inline-flex;
@@ -247,25 +335,25 @@ export default function Home() {
           font-family: var(--font-label);
           font-size: 14px;
           font-weight: 500;
-          color: var(--color-accent-cyan);
+          color: var(--color-accent-sage);
           background: transparent;
-          border: 1px solid rgba(0, 212, 255, 0.3);
+          border: 1px solid rgba(143, 174, 126, 0.3);
           text-decoration: none;
           border-radius: 8px;
           transition: all 0.2s ease;
         }
         .hero-cta-secondary:hover {
-          background: rgba(0, 212, 255, 0.08);
-          border-color: rgba(0, 212, 255, 0.5);
+          background: rgba(143, 174, 126, 0.08);
+          border-color: rgba(143, 174, 126, 0.5);
         }
 
         .stats-bar {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 1px;
-          background: rgba(0, 212, 255, 0.06);
-          border-top: 1px solid rgba(0, 212, 255, 0.06);
-          border-bottom: 1px solid rgba(0, 212, 255, 0.06);
+          background: rgba(143, 174, 126, 0.06);
+          border-top: 1px solid rgba(143, 174, 126, 0.06);
+          border-bottom: 1px solid rgba(143, 174, 126, 0.06);
           max-width: 1280px;
           margin: 0 auto;
         }
@@ -281,7 +369,7 @@ export default function Home() {
           font-family: var(--font-display);
           font-size: 28px;
           font-weight: 700;
-          color: var(--color-accent-cyan);
+          color: var(--color-accent-sage);
         }
         .stat-unit {
           font-size: 14px;
@@ -323,13 +411,13 @@ export default function Home() {
         .service-card {
           padding: 28px;
           background: var(--color-bg-card);
-          border: 1px solid rgba(0, 212, 255, 0.06);
+          border: 1px solid rgba(143, 174, 126, 0.06);
           border-radius: 12px;
           transition: all 0.2s ease;
         }
         .service-icon {
           font-size: 28px;
-          color: var(--color-accent-cyan);
+          color: var(--color-accent-sage);
           margin-bottom: 16px;
         }
         .service-name {
@@ -343,7 +431,7 @@ export default function Home() {
           font-family: var(--font-label);
           font-size: 14px;
           font-weight: 500;
-          color: var(--color-accent-cyan);
+          color: var(--color-accent-sage);
         }
         .service-desc {
           font-size: 14px;
@@ -354,7 +442,7 @@ export default function Home() {
         .service-link {
           font-family: var(--font-label);
           font-size: 13px;
-          color: var(--color-accent-cyan);
+          color: var(--color-accent-sage);
           text-decoration: none;
           transition: opacity 0.15s ease;
         }
@@ -368,14 +456,14 @@ export default function Home() {
         .step-card {
           padding: 24px;
           background: var(--color-bg-card);
-          border: 1px solid rgba(0, 212, 255, 0.06);
+          border: 1px solid rgba(143, 174, 126, 0.06);
           border-radius: 12px;
         }
         .step-num {
           font-family: var(--font-display);
           font-size: 32px;
           font-weight: 700;
-          color: rgba(0, 212, 255, 0.15);
+          color: rgba(143, 174, 126, 0.15);
           display: block;
           margin-bottom: 12px;
         }
@@ -393,6 +481,64 @@ export default function Home() {
           margin: 0;
         }
 
+        .printer-showcase {
+          background: var(--color-bg-secondary);
+          border-top: 1px solid rgba(143, 174, 126, 0.06);
+          border-bottom: 1px solid rgba(143, 174, 126, 0.06);
+          padding: 80px 40px;
+        }
+        .printer-showcase-inner {
+          max-width: 1280px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 1.2fr;
+          gap: 64px;
+          align-items: center;
+        }
+        .printer-showcase-image {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .printer-showcase-image img {
+          width: 100%;
+          max-width: 480px;
+          height: auto;
+          filter: drop-shadow(0 0 40px rgba(143, 174, 126, 0.1));
+        }
+        .printer-specs-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+        .printer-spec-item {
+          padding: 16px;
+          background: var(--color-bg-card);
+          border: 1px solid rgba(143, 174, 126, 0.06);
+          border-radius: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .printer-spec-value {
+          font-family: var(--font-display);
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--color-text-primary);
+        }
+        .printer-spec-unit {
+          font-size: 12px;
+          color: var(--color-text-muted);
+          margin-left: 2px;
+        }
+        .printer-spec-label {
+          font-family: var(--font-label);
+          font-size: 11px;
+          color: var(--color-text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+        }
+
         .about-blurb {
           text-align: center;
           display: flex;
@@ -408,15 +554,15 @@ export default function Home() {
           font-family: var(--font-label);
           font-size: 13px;
           font-weight: 500;
-          color: var(--color-accent-cyan);
+          color: var(--color-accent-sage);
           background: transparent;
-          border: 1px solid rgba(0, 212, 255, 0.3);
+          border: 1px solid rgba(143, 174, 126, 0.3);
           text-decoration: none;
           border-radius: 6px;
           transition: all 0.2s ease;
         }
         .about-link:hover {
-          background: rgba(0, 212, 255, 0.08);
+          background: rgba(143, 174, 126, 0.08);
         }
 
         @media (max-width: 768px) {
@@ -438,10 +584,33 @@ export default function Home() {
           .section {
             padding: 60px 24px;
           }
+          .printer-showcase {
+            padding: 60px 24px;
+          }
+          .printer-showcase-inner {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+          .printer-showcase-image {
+            order: -1;
+          }
+          .printer-specs-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
         }
         @media (max-width: 480px) {
           .steps-grid {
             grid-template-columns: 1fr;
+          }
+          .printer-specs-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+          }
+          .printer-spec-item {
+            padding: 12px;
+          }
+          .printer-spec-value {
+            font-size: 16px;
           }
         }
       `}</style>

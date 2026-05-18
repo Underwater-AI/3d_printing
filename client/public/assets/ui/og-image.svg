@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#000814"/>
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#00d4ff" stroke-width="0.3" opacity="0.15"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <!-- Glow orb -->
+  <circle cx="900" cy="315" r="200" fill="#00d4ff" opacity="0.04"/>
+  <circle cx="900" cy="315" r="100" fill="#00d4ff" opacity="0.06"/>
+  <!-- Logo icon large -->
+  <g transform="translate(80, 200) scale(3)">
+    <path d="M4 36 L20 4 L36 36" fill="none" stroke="#00d4ff" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M10 28 Q15 22 20 28 Q25 34 30 28" stroke="#00d4ff" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+    <path d="M12 22 Q17 16 20 22 Q23 28 28 22" stroke="#00d4ff" stroke-width="1.2" fill="none" opacity="0.4" stroke-linecap="round"/>
+    <circle cx="20" cy="20" r="3" fill="#00d4ff"/>
+  </g>
+  <!-- Title -->
+  <text x="250" y="260" font-family="'Space Mono', monospace" font-weight="700" font-size="64" fill="#f0f4ff" letter-spacing="0.02em">UNDERWATER AI</text>
+  <!-- Subtitle -->
+  <text x="250" y="320" font-family="'DM Sans', sans-serif" font-weight="400" font-size="28" fill="#00d4ff" letter-spacing="0.06em">3D PRINTING SERVICE</text>
+  <!-- Tagline -->
+  <text x="250" y="370" font-family="'DM Sans', sans-serif" font-weight="300" font-size="20" fill="#8899bb">Precision 3D printing powered by Bambu Lab P2S</text>
+  <!-- Location -->
+  <text x="250" y="410" font-family="'IBM Plex Mono', monospace" font-weight="400" font-size="16" fill="#445577">IISER Kolkata Campus, Mohanpur, Nadia, West Bengal</text>
+  <!-- Bottom bar -->
+  <rect x="0" y="600" width="1200" height="30" fill="#00d4ff" opacity="0.1"/>
+  <text x="80" y="620" font-family="'IBM Plex Mono', monospace" font-size="14" fill="#00d4ff" opacity="0.6">underwater-ai.github.io</text>
+</svg>
