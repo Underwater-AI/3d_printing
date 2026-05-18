@@ -3,6 +3,8 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, Float, Environment, ContactShadows, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
+const BASE = import.meta.env.BASE_URL;
+
 function PrinterModel({ url }) {
   const { scene } = useGLTF(url);
   const ref = useRef();
@@ -89,7 +91,7 @@ function LowPowerFallback() {
       position: 'relative',
     }}>
       <img
-        src="/assets/printer/hero/p2s-hero.jpg"
+        src={`${BASE}assets/printer/hero/p2s-hero.jpg`}
         alt="Bambu Lab P2S — the printer used by Underwater AI"
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />
@@ -147,7 +149,7 @@ export default function PrinterScene() {
           <pointLight position={[2, 3, 2]} color="#8fae7e" intensity={1.5} />
           <pointLight position={[-3, 1, -2]} color="#c4a882" intensity={0.5} />
 
-          <PrinterModel url="/assets/printer/models/printer-google.glb" />
+          <PrinterModel url={`${BASE}assets/printer/models/printer-google.glb`} />
           <GridFloor />
 
           <ContactShadows

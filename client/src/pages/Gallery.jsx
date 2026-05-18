@@ -1,19 +1,21 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
+const BASE = import.meta.env.BASE_URL;
+
 const galleryItems = [
-  { id: 1, name: 'Precision Multi-Color Print', material: 'PLA+', color: 'Multi', category: 'Multicolor', desc: 'AMS-powered 4-color print with seamless transitions. Bambu Lab P2S precision.', image: '/assets/printer/gallery/p2s-gallery-1.jpg' },
-  { id: 2, name: 'Functional Prototype', material: 'PETG', color: 'Black', category: 'Engineering', desc: 'Engineering-grade PETG with 0.2mm layer height. Heat resistant, durable.', image: '/assets/printer/gallery/p2s-gallery-2.jpg' },
-  { id: 3, name: 'High-Detail Figurine', material: 'PLA', color: 'White', category: 'Art', desc: 'Ultra-fine 0.08mm layers for maximum detail. Smooth surface finish.', image: '/assets/printer/gallery/p2s-gallery-3.jpg' },
-  { id: 4, name: 'Mechanical Assembly', material: 'PLA+', color: 'Grey', category: 'Engineering', desc: 'Multi-part assembly with snap-fit tolerances. Printed as a single job.', image: '/assets/printer/gallery/p2s-gallery-4.jpg' },
-  { id: 5, name: 'Large Format Print', material: 'PLA', color: 'Orange', category: 'Consumer', desc: 'Full 256mm build volume utilization. Vase mode for speed.', image: '/assets/printer/gallery/p2s-gallery-5.jpg' },
-  { id: 6, name: 'AI-Assisted Print Quality', material: 'PLA+', color: 'Blue', category: 'AI Features', desc: 'First-layer AI detection ensures perfect adhesion every time.', image: '/assets/printer/feature/ai-Ai-1-v1.jpg' },
-  { id: 7, name: 'Spaghetti Detection', material: 'PLA', color: 'White', category: 'AI Features', desc: 'AI monitors for print failures and pauses automatically to save filament.', image: '/assets/printer/feature/ai-Ai-2.jpg' },
-  { id: 8, name: 'Flow Calibration', material: 'PETG', color: 'Black', category: 'AI Features', desc: 'Automatic flow rate calibration for consistent extrusion.', image: '/assets/printer/feature/ai-Ai-3.jpg' },
-  { id: 9, name: 'Vibration Compensation', material: 'PLA+', color: 'Grey', category: 'Engineering', desc: 'Input shaping eliminates ringing at high speeds.', image: '/assets/printer/feature/ai-Ai-4.jpg' },
-  { id: 10, name: 'Speed Benchy — 18min', material: 'PLA', color: 'White', category: 'Speed', desc: '600mm/s max speed. 18-minute benchy with quality intact.', image: '/assets/printer/feature/highlight-1-en.jpg' },
-  { id: 11, name: 'CoreXY Motion System', material: 'PLA+', color: 'Black', category: 'Speed', desc: 'Belt-driven CoreXY for precise, fast movements.', image: '/assets/printer/feature/highlight-2.jpg' },
-  { id: 12, name: 'Active Flow Rate', material: 'PLA', color: 'White', category: 'Engineering', desc: 'Real-time flow rate adjustment for perfect extrusion.', image: '/assets/printer/feature/highlight-3.jpg' },
+  { id: 1, name: 'Precision Multi-Color Print', material: 'PLA+', color: 'Multi', category: 'Multicolor', desc: 'AMS-powered 4-color print with seamless transitions. Bambu Lab P2S precision.', image: `${BASE}assets/printer/gallery/p2s-gallery-1.jpg` },
+  { id: 2, name: 'Functional Prototype', material: 'PETG', color: 'Black', category: 'Engineering', desc: 'Engineering-grade PETG with 0.2mm layer height. Heat resistant, durable.', image: `${BASE}assets/printer/gallery/p2s-gallery-2.jpg` },
+  { id: 3, name: 'High-Detail Figurine', material: 'PLA', color: 'White', category: 'Art', desc: 'Ultra-fine 0.08mm layers for maximum detail. Smooth surface finish.', image: `${BASE}assets/printer/gallery/p2s-gallery-3.jpg` },
+  { id: 4, name: 'Mechanical Assembly', material: 'PLA+', color: 'Grey', category: 'Engineering', desc: 'Multi-part assembly with snap-fit tolerances. Printed as a single job.', image: `${BASE}assets/printer/gallery/p2s-gallery-4.jpg` },
+  { id: 5, name: 'Large Format Print', material: 'PLA', color: 'Orange', category: 'Consumer', desc: 'Full 256mm build volume utilization. Vase mode for speed.', image: `${BASE}assets/printer/gallery/p2s-gallery-5.jpg` },
+  { id: 6, name: 'AI-Assisted Print Quality', material: 'PLA+', color: 'Blue', category: 'AI Features', desc: 'First-layer AI detection ensures perfect adhesion every time.', image: `${BASE}assets/printer/feature/ai-Ai-1-v1.jpg` },
+  { id: 7, name: 'Spaghetti Detection', material: 'PLA', color: 'White', category: 'AI Features', desc: 'AI monitors for print failures and pauses automatically to save filament.', image: `${BASE}assets/printer/feature/ai-Ai-2.jpg` },
+  { id: 8, name: 'Flow Calibration', material: 'PETG', color: 'Black', category: 'AI Features', desc: 'Automatic flow rate calibration for consistent extrusion.', image: `${BASE}assets/printer/feature/ai-Ai-3.jpg` },
+  { id: 9, name: 'Vibration Compensation', material: 'PLA+', color: 'Grey', category: 'Engineering', desc: 'Input shaping eliminates ringing at high speeds.', image: `${BASE}assets/printer/feature/ai-Ai-4.jpg` },
+  { id: 10, name: 'Speed Benchy — 18min', material: 'PLA', color: 'White', category: 'Speed', desc: '600mm/s max speed. 18-minute benchy with quality intact.', image: `${BASE}assets/printer/feature/highlight-1-en.jpg` },
+  { id: 11, name: 'CoreXY Motion System', material: 'PLA+', color: 'Black', category: 'Speed', desc: 'Belt-driven CoreXY for precise, fast movements.', image: `${BASE}assets/printer/feature/highlight-2.jpg` },
+  { id: 12, name: 'Active Flow Rate', material: 'PLA', color: 'White', category: 'Engineering', desc: 'Real-time flow rate adjustment for perfect extrusion.', image: `${BASE}assets/printer/feature/highlight-3.jpg` },
 ];
 
 const categories = ['All', 'Engineering', 'Multicolor', 'AI Features', 'Speed', 'Art', 'Consumer'];
@@ -199,7 +201,7 @@ export default function Gallery() {
         gap: '20px',
       }}>
         <img
-          src="/assets/printer/product/p2s-screen.jpg"
+          src={`${BASE}assets/printer/product/p2s-screen.jpg`}
           alt="Bambu Lab P2S touchscreen"
           style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
         />

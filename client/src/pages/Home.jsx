@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { fitTextToWidth } from '../lib/pretext';
 import { Reveal, StaggerContainer, StaggerItem, ScaleReveal } from '../components/ui/ScrollReveal';
 
+const BASE = import.meta.env.BASE_URL;
 const PrinterScene = lazy(() => import('../components/three/PrinterScene'));
 
 const stats = [
@@ -112,8 +113,8 @@ export default function Home() {
           <div className="hero-media-wrapper">
             <video
               className="hero-video"
-              src="/assets/printer/video/p2s-hero.mp4"
-              poster="/assets/printer/hero/p2s-hero.jpg"
+              src={`${BASE}assets/printer/video/p2s-hero.mp4`}
+              poster={`${BASE}assets/printer/hero/p2s-hero.jpg`}
               autoPlay
               muted
               loop
@@ -188,7 +189,7 @@ export default function Home() {
         <div className="printer-showcase-inner">
           <ScaleReveal>
             <div className="printer-showcase-image">
-              <img src="/assets/printer/feature/highlight-1-en.jpg" alt="Bambu Lab P2S — the printer used by Underwater AI" />
+              <img src={`${BASE}assets/printer/feature/highlight-1-en.jpg`} alt="Bambu Lab P2S — the printer used by Underwater AI" />
             </div>
           </ScaleReveal>
           <Reveal delay={0.15}>

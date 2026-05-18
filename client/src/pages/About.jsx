@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 
+const BASE = import.meta.env.BASE_URL;
+
 const team = [
   { name: 'Gautam Singh', role: 'CEO', initials: 'GS' },
   { name: 'Shuvam Banerji Seal', role: 'CTO', initials: 'SB' },
@@ -85,7 +87,7 @@ export default function About() {
           gap: '0',
         }}>
           <img
-            src="/assets/printer/feature/highlight-5.jpg"
+            src={`${BASE}assets/printer/feature/highlight-5.jpg`}
             alt="Bambu Lab P2S — detailed view"
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />

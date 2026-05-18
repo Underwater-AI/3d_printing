@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const BASE = import.meta.env.BASE_URL;
+
 const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/order', label: 'Order' },
@@ -20,7 +22,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-inner">
         <Link to="/" className="navbar-logo">
-          <img src="/assets/ui/logo.svg" alt="Underwater AI" className="logo-img" />
+          <img src={`${BASE}assets/ui/logo.svg`} alt="Underwater AI" className="logo-img" />
         </Link>
 
         <div className="navbar-links">

@@ -37,7 +37,7 @@ export async function initiatePayment({
     currency,
     name: 'Underwater AI',
     description: '3D Printing Service',
-    image: '/assets/ui/logo.svg',
+    image: import.meta.env.BASE_URL + 'assets/ui/logo.svg',
     order_id: orderId,
     handler: async (response) => {
       try {

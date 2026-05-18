@@ -2,6 +2,8 @@ import { useState, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
 
+const BASE = import.meta.env.BASE_URL;
+
 const models = [
   {
     id: 'cubesat',
@@ -9,11 +11,11 @@ const models = [
     category: 'Space',
     description: 'A CubeSat satellite model — 3 printable sections (top, middle, bottom). Perfect for space enthusiasts and education.',
     files: [
-      { name: 'Top', file: '/assets/free-models/nasa/cubesat/CubeSat-top.stl' },
-      { name: 'Middle', file: '/assets/free-models/nasa/cubesat/CubeSat-middle.stl' },
-      { name: 'Bottom', file: '/assets/free-models/nasa/cubesat/CubeSat-bottom.stl' },
+      { name: 'Top', file: BASE + 'assets/free-models/nasa/cubesat/CubeSat-top.stl' },
+      { name: 'Middle', file: BASE + 'assets/free-models/nasa/cubesat/CubeSat-middle.stl' },
+      { name: 'Bottom', file: BASE + 'assets/free-models/nasa/cubesat/CubeSat-bottom.stl' },
     ],
-    preview: '/assets/free-models/nasa/cubesat/CubeSat.png',
+    preview: BASE + 'assets/free-models/nasa/cubesat/CubeSat.png',
     source: 'NASA 3D Resources',
     license: 'Public Domain',
     printTime: '~4 hours',
@@ -25,10 +27,10 @@ const models = [
     category: 'Space',
     description: 'The iconic Hubble Space Telescope — detailed model with main body and solar panels. A stunning display piece.',
     files: [
-      { name: 'Main Body', file: '/assets/free-models/nasa/hubble/Main-body.stl' },
-      { name: 'Solar Panels', file: '/assets/free-models/nasa/hubble/Solar-panels.stl' },
+      { name: 'Main Body', file: BASE + 'assets/free-models/nasa/hubble/Main-body.stl' },
+      { name: 'Solar Panels', file: BASE + 'assets/free-models/nasa/hubble/Solar-panels.stl' },
     ],
-    preview: '/assets/free-models/nasa/hubble/Hubble.png',
+    preview: BASE + 'assets/free-models/nasa/hubble/Hubble.png',
     source: 'NASA 3D Resources',
     license: 'Public Domain',
     printTime: '~8 hours',
@@ -40,10 +42,10 @@ const models = [
     category: 'Space',
     description: 'The next-generation space telescope — featuring the iconic gold mirror dish and body. A masterpiece of engineering.',
     files: [
-      { name: 'Body', file: '/assets/free-models/nasa/jwst/Body.stl' },
-      { name: 'Dish', file: '/assets/free-models/nasa/jwst/Dish.stl' },
+      { name: 'Body', file: BASE + 'assets/free-models/nasa/jwst/Body.stl' },
+      { name: 'Dish', file: BASE + 'assets/free-models/nasa/jwst/Dish.stl' },
     ],
-    preview: '/assets/free-models/nasa/jwst/James%20Webb%20Space%20Telescope.png',
+    preview: BASE + 'assets/free-models/nasa/jwst/James%20Webb%20Space%20Telescope.png',
     source: 'NASA 3D Resources',
     license: 'Public Domain',
     printTime: '~6 hours',
@@ -55,10 +57,10 @@ const models = [
     category: 'Space',
     description: 'The Mars Curiosity Rover — detailed model with body and wheels. Includes build instructions for assembly.',
     files: [
-      { name: 'Body', file: '/assets/free-models/nasa/curiosity/1-body.stl' },
-      { name: 'Wheels', file: '/assets/free-models/nasa/curiosity/4-wheels.stl' },
+      { name: 'Body', file: BASE + 'assets/free-models/nasa/curiosity/1-body.stl' },
+      { name: 'Wheels', file: BASE + 'assets/free-models/nasa/curiosity/4-wheels.stl' },
     ],
-    preview: '/assets/free-models/nasa/curiosity/Curiosity%20Rover%20%28Detailed%29.png',
+    preview: BASE + 'assets/free-models/nasa/curiosity/Curiosity%20Rover%20%28Detailed%29.png',
     source: 'NASA 3D Resources',
     license: 'Public Domain',
     printTime: '~12 hours',
@@ -70,9 +72,9 @@ const models = [
     category: 'Space',
     description: 'The Orion crew capsule — NASA\'s next-generation spacecraft for deep space missions. Clean, printable design.',
     files: [
-      { name: 'Capsule', file: '/assets/free-models/nasa/orion/Orion-Capsule.stl' },
+      { name: 'Capsule', file: BASE + 'assets/free-models/nasa/orion/Orion-Capsule.stl' },
     ],
-    preview: '/assets/free-models/nasa/orion/Orion.png',
+    preview: BASE + 'assets/free-models/nasa/orion/Orion.png',
     source: 'NASA 3D Resources',
     license: 'Public Domain',
     printTime: '~5 hours',

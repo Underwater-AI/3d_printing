@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 
+const BASE = import.meta.env.BASE_URL;
+
 export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-brand">
           <div className="footer-logo">
-            <img src="/assets/ui/logo.svg" alt="Underwater AI" className="footer-logo-img" />
+            <img src={`${BASE}assets/ui/logo.svg`} alt="Underwater AI" className="footer-logo-img" />
           </div>
           <p className="footer-tagline">Precision 3D Printing · IISER Kolkata</p>
           <p className="footer-address">
