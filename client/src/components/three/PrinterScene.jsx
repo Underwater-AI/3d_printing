@@ -1,6 +1,6 @@
-import { Suspense, useRef, useState, useEffect } from 'react';
+import { Suspense, useRef, useState, useEffect, Component } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Stars, Float, Environment, ContactShadows, useGLTF } from '@react-three/drei';
+import { OrbitControls, Float, Environment, ContactShadows, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 const BASE = import.meta.env.BASE_URL;
@@ -91,8 +91,6 @@ function Scene3D() {
       }}
     >
       <Suspense fallback={null}>
-        <Stars radius={80} depth={50} count={3000} factor={3} saturation={0} fade speed={0.5} />
-
         <ambientLight intensity={0.3} />
         <directionalLight position={[5, 10, 5]} intensity={0.8} castShadow shadow-mapSize={1024} />
         <pointLight position={[2, 3, 2]} color="#8fae7e" intensity={1.5} />
@@ -156,8 +154,6 @@ export default function PrinterScene() {
     </div>
   );
 }
-
-import { Component } from 'react';
 
 class ErrorCatcher extends Component {
   constructor(props) {
