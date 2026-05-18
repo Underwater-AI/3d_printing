@@ -36,7 +36,7 @@ function HeroHeading() {
       const container = ref.current.parentElement;
       if (!container) return;
       const available = container.clientWidth - 40;
-      const ideal = fitTextToWidth('YOUR IDEA. PRINTED.', available, "'Space Mono', 'Courier New', monospace", '700');
+      const ideal = fitTextToWidth('YOUR IDEA. PRINTED.', available, "'Cormorant Garamond', 'Georgia', serif", '700');
       setFontSize(Math.min(Math.max(ideal, 32), 96));
     }
     resize();
