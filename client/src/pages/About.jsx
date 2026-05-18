@@ -296,7 +296,7 @@ export default function About() {
             fontFamily: 'var(--font-label)',
             fontSize: '14px',
             fontWeight: 500,
-            color: '#000814',
+            color: 'var(--color-text-inverse)',
             background: 'var(--color-accent-sage)',
             textDecoration: 'none',
             borderRadius: '8px',

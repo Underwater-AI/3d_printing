@@ -180,7 +180,7 @@ export default function Track() {
           fontFamily: 'var(--font-label)',
           fontSize: '13px',
           fontWeight: 500,
-          color: '#000814',
+          color: 'var(--color-text-inverse)',
           background: loading ? 'rgba(143, 174, 126, 0.5)' : 'var(--color-accent-sage)',
           border: 'none',
           borderRadius: '6px',
@@ -288,14 +288,14 @@ export default function Track() {
                     zIndex: 1,
                   }}>
                     {completed && i < currentIdx && (
-                      <span style={{ fontSize: '10px', color: '#000814' }}>&#10003;</span>
+                      <span style={{ fontSize: '10px', color: 'var(--color-text-inverse)' }}>&#10003;</span>
                     )}
                     {isCurrent && (
                       <div style={{
                         width: '8px',
                         height: '8px',
                         borderRadius: '50%',
-                        background: '#000814',
+                        background: 'var(--color-text-inverse)',
                       }} />
                     )}
                   </div>

@@ -202,7 +202,7 @@ export default function PrintJobForm({ onSubmit }) {
               fontSize: '12px',
               fontWeight: 500,
               background: i <= step ? 'var(--color-accent-sage)' : 'var(--color-bg-elevated)',
-              color: i <= step ? '#000814' : 'var(--color-text-muted)',
+              color: i <= step ? 'var(--color-text-inverse)' : 'var(--color-text-muted)',
               border: i <= step ? 'none' : '1px solid rgba(143, 174, 126, 0.1)',
               flexShrink: 0,
             }}>

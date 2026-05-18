@@ -10,3 +10,5 @@ coverage/
 .vscode/
 *.swp
 *.swo
+.vite/
+__screenshots__/

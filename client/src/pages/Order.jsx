@@ -84,7 +84,7 @@ export default function Order() {
                 fontFamily: 'var(--font-label)',
                 fontSize: '13px',
                 fontWeight: 500,
-                color: '#000814',
+                color: 'var(--color-text-inverse)',
                 background: 'var(--color-accent-sage)',
                 border: 'none',
                 borderRadius: '6px',

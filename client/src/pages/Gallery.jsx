@@ -73,7 +73,7 @@ export default function Gallery() {
               fontFamily: 'var(--font-label)',
               fontSize: '12px',
               fontWeight: 500,
-              color: activeCategory === cat ? '#000814' : 'var(--color-text-secondary)',
+              color: activeCategory === cat ? 'var(--color-text-inverse)' : 'var(--color-text-secondary)',
               background: activeCategory === cat ? 'var(--color-accent-sage)' : 'var(--color-bg-elevated)',
               border: activeCategory === cat ? 'none' : '1px solid rgba(143, 174, 126, 0.1)',
               borderRadius: '100px',

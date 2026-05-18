@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 const variants = {
   primary: {
     background: 'var(--color-accent-sage)',
-    color: '#000814',
+    color: 'var(--color-text-inverse)',
     hoverBg: '#8fae7e',
     hoverShadow: '0 0 24px rgba(143, 174, 126, 0.35)',
   },

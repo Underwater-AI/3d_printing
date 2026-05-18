@@ -66,8 +66,10 @@ connectDB()
     });
   })
   .catch((err) => {
-    console.error('Database connection failed:', err.message);
-    process.exit(1);
+    console.warn('Database connection warning:', err.message);
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT} (without database)`);
+    });
   });
 
 module.exports = app;

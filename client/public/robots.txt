@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://underwater-ai.github.io/3d_printing/sitemap.xml
+
+# Disallow admin routes
+Disallow: /admin
+Disallow: /api/

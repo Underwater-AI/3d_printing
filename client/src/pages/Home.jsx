@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { fitTextToWidth } from '../lib/pretext';
+import { Reveal, StaggerContainer, StaggerItem, ScaleReveal } from '../components/ui/ScrollReveal';
 
 const PrinterScene = lazy(() => import('../components/three/PrinterScene'));
 
@@ -58,7 +59,7 @@ function HeroHeading() {
       }}
     >
       YOUR IDEA.<br />
-      <span style={{ color: 'var(--color-accent-sage)' }}>PRINTED.</span>
+      <span className="text-gradient-sage">PRINTED.</span>
     </h1>
   );
 }
@@ -72,7 +73,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             <p style={{
               fontFamily: 'var(--font-label)',
@@ -96,7 +97,7 @@ export default function Home() {
               Powered by Bambu Lab P2S · Upload your model, choose materials,
               and get precision prints delivered from IISER Kolkata Campus.
             </p>
-            <div style={{ display: 'flex', gap: '12px', marginTop: '32px' }}>
+            <div style={{ display: 'flex', gap: '12px', marginTop: '32px', flexWrap: 'wrap' }}>
               <Link to="/order" className="hero-cta-primary">
                 Submit Print Job →
               </Link>
@@ -127,59 +128,127 @@ export default function Home() {
       </section>
 
       {/* Stats bar */}
-      <section className="stats-bar">
-        {stats.map(({ value, unit, label }) => (
-          <div key={label} className="stat-item">
-            <span className="stat-value">{value}<span className="stat-unit">{unit}</span></span>
-            <span className="stat-label">{label}</span>
-          </div>
-        ))}
-      </section>
+      <Reveal>
+        <section className="stats-bar">
+          {stats.map(({ value, unit, label }) => (
+            <div key={label} className="stat-item">
+              <span className="stat-value">{value}<span className="stat-unit">{unit}</span></span>
+              <span className="stat-label">{label}</span>
+            </div>
+          ))}
+        </section>
+      </Reveal>
 
       {/* Services */}
       <section className="section services-section">
-        <h2 className="section-title">Materials & Services</h2>
-        <p className="section-subtitle">Choose the right filament for your project</p>
-        <div className="services-grid">
+        <Reveal>
+          <h2 className="section-title">Materials & Services</h2>
+          <p className="section-subtitle">Choose the right filament for your project</p>
+        </Reveal>
+        <StaggerContainer style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {services.map(({ icon, name, price, desc }) => (
-            <motion.div
-              key={name}
-              className="service-card"
-              whileHover={{ y: -4, borderColor: 'rgba(143, 174, 126, 0.25)' }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="service-icon">{icon}</div>
-              <h3 className="service-name">{name}</h3>
-              <span className="service-price">{price}</span>
-              <p className="service-desc">{desc}</p>
-              <Link to="/order" className="service-link">Order Now →</Link>
-            </motion.div>
+            <StaggerItem key={name}>
+              <motion.div
+                className="service-card"
+                whileHover={{ y: -4, borderColor: 'rgba(143, 174, 126, 0.25)' }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="service-icon">{icon}</div>
+                <h3 className="service-name">{name}</h3>
+                <span className="service-price">{price}</span>
+                <p className="service-desc">{desc}</p>
+                <Link to="/order" className="service-link">Order Now →</Link>
+              </motion.div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </section>
 
       {/* How it works */}
       <section className="section steps-section">
-        <h2 className="section-title">How It Works</h2>
-        <p className="section-subtitle">From upload to delivery in 4 simple steps</p>
-        <div className="steps-grid">
+        <Reveal>
+          <h2 className="section-title">How It Works</h2>
+          <p className="section-subtitle">From upload to delivery in 4 simple steps</p>
+        </Reveal>
+        <StaggerContainer className="steps-grid">
           {steps.map(({ num, title, desc }) => (
-            <div key={num} className="step-card">
-              <span className="step-num">{num}</span>
-              <h3 className="step-title">{title}</h3>
-              <p className="step-desc">{desc}</p>
-            </div>
+            <StaggerItem key={num}>
+              <div className="step-card">
+                <span className="step-num">{num}</span>
+                <h3 className="step-title">{title}</h3>
+                <p className="step-desc">{desc}</p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </section>
 
       {/* Printer showcase */}
       <section className="printer-showcase">
         <div className="printer-showcase-inner">
-          <div className="printer-showcase-image">
-            <img src="/assets/printer/feature/highlight-1-en.jpg" alt="Bambu Lab P2S — the printer used by Underwater AI" />
-          </div>
-          <div className="printer-showcase-info">
+          <ScaleReveal>
+            <div className="printer-showcase-image">
+              <img src="/assets/printer/feature/highlight-1-en.jpg" alt="Bambu Lab P2S — the printer used by Underwater AI" />
+            </div>
+          </ScaleReveal>
+          <Reveal delay={0.15}>
+            <div className="printer-showcase-info">
+              <p style={{
+                fontFamily: 'var(--font-label)',
+                fontSize: '12px',
+                color: 'var(--color-accent-sage)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                marginBottom: '12px',
+              }}>
+                Our Printer
+              </p>
+              <h2 style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '32px',
+                fontWeight: 700,
+                color: 'var(--color-text-primary)',
+                margin: '0 0 16px',
+                lineHeight: 1.2,
+              }}>
+                Bambu Lab P2S
+              </h2>
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '15px',
+                color: 'var(--color-text-secondary)',
+                lineHeight: 1.7,
+                marginBottom: '28px',
+                maxWidth: '460px',
+              }}>
+                CoreXY motion system with 600mm/s max speed. AI-powered first-layer detection and
+                spaghetti failure monitoring. Automatic flow calibration and vibration compensation
+                for consistent, production-grade output.
+              </p>
+              <div className="printer-specs-grid">
+                {[
+                  { label: 'Build Volume', value: '256 × 256 × 256', unit: 'mm³' },
+                  { label: 'Max Speed', value: '600', unit: 'mm/s' },
+                  { label: 'Nozzle', value: '0.4', unit: 'mm' },
+                  { label: 'Layer Resolution', value: '0.08 – 0.28', unit: 'mm' },
+                  { label: 'AMS Support', value: '4', unit: 'colors' },
+                  { label: 'AI Detection', value: 'Yes', unit: '' },
+                ].map(({ label, value, unit }) => (
+                  <div key={label} className="printer-spec-item">
+                    <span className="printer-spec-value">{value}<span className="printer-spec-unit">{unit}</span></span>
+                    <span className="printer-spec-label">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* About blurb */}
+      <section className="section about-blurb">
+        <Reveal>
+          <div className="about-blurb-content">
             <p style={{
               fontFamily: 'var(--font-label)',
               fontSize: '12px',
@@ -188,94 +257,73 @@ export default function Home() {
               textTransform: 'uppercase',
               marginBottom: '12px',
             }}>
-              Our Printer
+              About Underwater AI
             </p>
             <h2 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: '32px',
-              fontWeight: 700,
+              fontSize: '28px',
               color: 'var(--color-text-primary)',
-              margin: '0 0 16px',
-              lineHeight: 1.2,
+              lineHeight: 1.3,
+              marginBottom: '16px',
             }}>
-              Bambu Lab P2S
+              Deep-Tech at IISER Kolkata
             </h2>
             <p style={{
               fontFamily: 'var(--font-body)',
               fontSize: '15px',
               color: 'var(--color-text-secondary)',
               lineHeight: 1.7,
-              marginBottom: '28px',
-              maxWidth: '460px',
+              maxWidth: '600px',
+              marginBottom: '24px',
             }}>
-              CoreXY motion system with 600mm/s max speed. AI-powered first-layer detection and
-              spaghetti failure monitoring. Automatic flow calibration and vibration compensation
-              for consistent, production-grade output.
+              We are a deep-tech startup based at IISER Kolkata Campus, Mohanpur, Nadia — funded by
+              MeitY, Government of India. Our core product is AI-powered underwater imaging. Our 3D
+              printing service powers rapid prototyping for our AUV/ROV hardware research, and we've
+              opened it to the public.
             </p>
-            <div className="printer-specs-grid">
-              {[
-                { label: 'Build Volume', value: '256 × 256 × 256', unit: 'mm³' },
-                { label: 'Max Speed', value: '600', unit: 'mm/s' },
-                { label: 'Nozzle', value: '0.4', unit: 'mm' },
-                { label: 'Layer Resolution', value: '0.08 – 0.28', unit: 'mm' },
-                { label: 'AMS Support', value: '4', unit: 'colors' },
-                { label: 'AI Detection', value: 'Yes', unit: '' },
-              ].map(({ label, value, unit }) => (
-                <div key={label} className="printer-spec-item">
-                  <span className="printer-spec-value">{value}<span className="printer-spec-unit">{unit}</span></span>
-                  <span className="printer-spec-label">{label}</span>
-                </div>
-              ))}
-            </div>
+            <a
+              href="https://underwater-ai.github.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="about-link"
+            >
+              Visit Underwater AI →
+            </a>
           </div>
-        </div>
+        </Reveal>
       </section>
 
-      {/* About blurb */}
-      <section className="section about-blurb">
-        <div className="about-blurb-content">
-          <p style={{
-            fontFamily: 'var(--font-label)',
-            fontSize: '12px',
-            color: 'var(--color-accent-sage)',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            marginBottom: '12px',
-          }}>
-            About Underwater AI
-          </p>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '28px',
-            color: 'var(--color-text-primary)',
-            lineHeight: 1.3,
-            marginBottom: '16px',
-          }}>
-            Deep-Tech at IISER Kolkata
-          </h2>
-          <p style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '15px',
-            color: 'var(--color-text-secondary)',
-            lineHeight: 1.7,
-            maxWidth: '600px',
-            marginBottom: '24px',
-          }}>
-            We are a deep-tech startup based at IISER Kolkata Campus, Mohanpur, Nadia — funded by
-            MeitY, Government of India. Our core product is AI-powered underwater imaging. Our 3D
-            printing service powers rapid prototyping for our AUV/ROV hardware research, and we've
-            opened it to the public.
-          </p>
-          <a
-            href="https://underwater-ai.github.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="about-link"
-          >
-            Visit Underwater AI →
-          </a>
-        </div>
-      </section>
+      {/* CTA Banner */}
+      <Reveal>
+        <section className="cta-banner">
+          <div className="cta-banner-inner">
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '28px',
+              fontWeight: 700,
+              color: 'var(--color-text-primary)',
+              margin: '0 0 12px',
+              lineHeight: 1.2,
+            }}>
+              Ready to bring your idea to life?
+            </h2>
+            <p style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '15px',
+              color: 'var(--color-text-secondary)',
+              lineHeight: 1.6,
+              margin: '0 0 24px',
+              maxWidth: '440px',
+            }}>
+              Upload your STL file, choose your material, and get a quote in seconds.
+              Printed on Bambu Lab P2S with AI-assisted quality control.
+            </p>
+            <Link to="/order" className="hero-cta-primary">
+              Start Your Print →
+            </Link>
+          </div>
+        </section>
+      </Reveal>
 
       <style>{`
         .hero {
@@ -315,26 +363,27 @@ export default function Home() {
           display: inline-flex;
           align-items: center;
           padding: 14px 28px;
-          font-family: var(--font-label);
+          font-family: var(--font-body);
           font-size: 14px;
-          font-weight: 500;
-          color: #000814;
+          font-weight: 600;
+          color: var(--color-text-inverse);
           background: var(--color-accent-sage);
           text-decoration: none;
           border-radius: 8px;
           transition: all 0.2s ease;
         }
         .hero-cta-primary:hover {
-          background: #8fae7e;
+          background: #a0be8f;
           box-shadow: 0 0 30px rgba(143, 174, 126, 0.3);
+          transform: translateY(-1px);
         }
         .hero-cta-secondary {
           display: inline-flex;
           align-items: center;
           padding: 14px 28px;
-          font-family: var(--font-label);
+          font-family: var(--font-body);
           font-size: 14px;
-          font-weight: 500;
+          font-weight: 600;
           color: var(--color-accent-sage);
           background: transparent;
           border: 1px solid rgba(143, 174, 126, 0.3);
@@ -414,6 +463,7 @@ export default function Home() {
           border: 1px solid rgba(143, 174, 126, 0.06);
           border-radius: 12px;
           transition: all 0.2s ease;
+          height: 100%;
         }
         .service-icon {
           font-size: 28px;
@@ -440,8 +490,9 @@ export default function Home() {
           margin: 12px 0 16px;
         }
         .service-link {
-          font-family: var(--font-label);
+          font-family: var(--font-body);
           font-size: 13px;
+          font-weight: 600;
           color: var(--color-accent-sage);
           text-decoration: none;
           transition: opacity 0.15s ease;
@@ -458,6 +509,7 @@ export default function Home() {
           background: var(--color-bg-card);
           border: 1px solid rgba(143, 174, 126, 0.06);
           border-radius: 12px;
+          height: 100%;
         }
         .step-num {
           font-family: var(--font-display);
@@ -504,6 +556,7 @@ export default function Home() {
           width: 100%;
           max-width: 480px;
           height: auto;
+          border-radius: 12px;
           filter: drop-shadow(0 0 40px rgba(143, 174, 126, 0.1));
         }
         .printer-specs-grid {
@@ -551,9 +604,9 @@ export default function Home() {
           display: inline-flex;
           align-items: center;
           padding: 10px 20px;
-          font-family: var(--font-label);
+          font-family: var(--font-body);
           font-size: 13px;
-          font-weight: 500;
+          font-weight: 600;
           color: var(--color-accent-sage);
           background: transparent;
           border: 1px solid rgba(143, 174, 126, 0.3);
@@ -563,6 +616,20 @@ export default function Home() {
         }
         .about-link:hover {
           background: rgba(143, 174, 126, 0.08);
+        }
+
+        .cta-banner {
+          background: var(--color-bg-secondary);
+          border-top: 1px solid rgba(143, 174, 126, 0.06);
+          padding: 80px 40px;
+        }
+        .cta-banner-inner {
+          max-width: 600px;
+          margin: 0 auto;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
         @media (max-width: 768px) {
@@ -596,6 +663,9 @@ export default function Home() {
           }
           .printer-specs-grid {
             grid-template-columns: repeat(2, 1fr);
+          }
+          .cta-banner {
+            padding: 60px 24px;
           }
         }
         @media (max-width: 480px) {
