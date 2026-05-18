@@ -60,7 +60,7 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait">
-      <PageTransition key={location.pathname}>
+      <PageTransition pageKey={location.pathname}>
         <Suspense fallback={<LoadingFallback />}>
           <Routes location={location}>
             <Route path="/" element={<Home />} />
