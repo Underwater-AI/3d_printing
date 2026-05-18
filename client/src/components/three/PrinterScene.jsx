@@ -42,41 +42,6 @@ function GridFloor() {
   );
 }
 
-function SceneLoader() {
-  return (
-    <div style={{
-      position: 'absolute',
-      inset: 0,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'var(--color-bg-primary)',
-      borderRadius: '12px',
-      zIndex: 5,
-    }}>
-      <div style={{
-        width: 32,
-        height: 32,
-        border: '2px solid rgba(143, 174, 126, 0.15)',
-        borderTopColor: 'var(--color-accent-sage)',
-        borderRadius: '50%',
-        animation: 'spin 0.7s linear infinite',
-        marginBottom: 12,
-      }} />
-      <span style={{
-        fontFamily: 'var(--font-label)',
-        fontSize: '11px',
-        letterSpacing: '0.08em',
-        textTransform: 'uppercase',
-        color: 'var(--color-text-muted)',
-      }}>
-        Loading 3D Model
-      </span>
-    </div>
-  );
-}
-
 function LowPowerFallback() {
   return (
     <div style={{
@@ -112,68 +77,101 @@ function LowPowerFallback() {
   );
 }
 
+function Scene3D() {
+  return (
+    <Canvas
+      camera={{ position: [3, 2, 4], fov: 45 }}
+      shadows
+      dpr={[1, 2]}
+      style={{ background: 'transparent' }}
+      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      onCreated={({ gl }) => {
+        gl.toneMapping = THREE.ACESFilmicToneMapping;
+        gl.toneMappingExposure = 1.2;
+      }}
+    >
+      <Suspense fallback={null}>
+        <Stars radius={80} depth={50} count={3000} factor={3} saturation={0} fade speed={0.5} />
+
+        <ambientLight intensity={0.3} />
+        <directionalLight position={[5, 10, 5]} intensity={0.8} castShadow shadow-mapSize={1024} />
+        <pointLight position={[2, 3, 2]} color="#8fae7e" intensity={1.5} />
+        <pointLight position={[-3, 1, -2]} color="#c4a882" intensity={0.5} />
+
+        <PrinterModel url={`${BASE}assets/printer/models/printer-google.glb`} />
+        <GridFloor />
+
+        <ContactShadows
+          position={[0, -1.49, 0]}
+          opacity={0.4}
+          scale={8}
+          blur={2}
+          far={4}
+          color="#0a0806"
+        />
+
+        <Environment preset="studio" environmentIntensity={0.3} />
+
+        <OrbitControls
+          enablePan={false}
+          minDistance={3}
+          maxDistance={8}
+          autoRotate
+          autoRotateSpeed={0.5}
+          maxPolarAngle={Math.PI / 2 + 0.3}
+          minPolarAngle={0.2}
+        />
+      </Suspense>
+    </Canvas>
+  );
+}
+
 export default function PrinterScene() {
-  const [lowPower, setLowPower] = useState(false);
-  const [webglOk, setWebglOk] = useState(true);
+  const [use3D, setUse3D] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    // Check device memory
     if (typeof navigator !== 'undefined' && navigator.deviceMemory && navigator.deviceMemory < 4) {
-      setLowPower(true);
+      setUse3D(false);
       return;
     }
+    // Check WebGL support
     try {
       const canvas = document.createElement('canvas');
       const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-      if (!gl) setWebglOk(false);
+      if (!gl) setUse3D(false);
     } catch {
-      setWebglOk(false);
+      setUse3D(false);
     }
   }, []);
 
-  if (lowPower || !webglOk) return <LowPowerFallback />;
+  if (!use3D || hasError) return <LowPowerFallback />;
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <Canvas
-        camera={{ position: [3, 2, 4], fov: 45 }}
-        shadows
-        dpr={[1, 2]}
-        style={{ background: 'transparent' }}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-      >
-        <Suspense fallback={null}>
-          <Stars radius={80} depth={50} count={3000} factor={3} saturation={0} fade speed={0.5} />
-
-          <ambientLight intensity={0.3} />
-          <directionalLight position={[5, 10, 5]} intensity={0.8} castShadow shadow-mapSize={1024} />
-          <pointLight position={[2, 3, 2]} color="#8fae7e" intensity={1.5} />
-          <pointLight position={[-3, 1, -2]} color="#c4a882" intensity={0.5} />
-
-          <PrinterModel url={`${BASE}assets/printer/models/printer-google.glb`} />
-          <GridFloor />
-
-          <ContactShadows
-            position={[0, -1.49, 0]}
-            opacity={0.4}
-            scale={8}
-            blur={2}
-            far={4}
-            color="#0a0806"
-          />
-
-          <Environment preset="studio" environmentIntensity={0.3} />
-
-          <OrbitControls
-            enablePan={false}
-            minDistance={3}
-            maxDistance={8}
-            autoRotate
-            autoRotateSpeed={0.5}
-            maxPolarAngle={Math.PI / 2 + 0.3}
-            minPolarAngle={0.2}
-          />
-        </Suspense>
-      </Canvas>
+      <ErrorCatcher onError={() => setHasError(true)}>
+        <Scene3D />
+      </ErrorCatcher>
     </div>
   );
+}
+
+import { Component } from 'react';
+
+class ErrorCatcher extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch() {
+    this.props.onError?.();
+  }
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
 }

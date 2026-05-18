@@ -5,7 +5,6 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './components/layout/Navbar.jsx';
 import Footer from './components/layout/Footer.jsx';
 import PageTransition from './components/ui/PageTransition.jsx';
-import ErrorBoundary from './components/ui/ErrorBoundary.jsx';
 import { useAuthStore } from './lib/store.js';
 
 const Home = lazy(() => import('./pages/Home.jsx'));
@@ -62,29 +61,27 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode="wait">
       <PageTransition key={location.pathname}>
-        <ErrorBoundary>
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes location={location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/order" element={<Order />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/track" element={<Track />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/assets" element={<FreeAssets />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </Suspense>
-        </ErrorBoundary>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/order" element={<Order />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/track" element={<Track />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/assets" element={<FreeAssets />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Suspense>
       </PageTransition>
     </AnimatePresence>
   );
