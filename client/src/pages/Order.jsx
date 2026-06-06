@@ -13,13 +13,8 @@ export default function Order() {
   };
 
   return (
-    <div style={{
-      maxWidth: '1300px',
-      margin: '0 auto',
-      padding: '100px 24px 80px',
-    }}>
-      {/* ── Page header ── */}
-      <div style={{ marginBottom: '36px' }}>
+    <div style={{ paddingTop: '100px', maxWidth: '1300px', margin: '0 auto', padding: '100px 24px 80px' }}>
+      <div style={{ marginBottom: '40px' }}>
         <p style={{
           fontFamily: 'var(--font-label)',
           fontSize: '12px',
@@ -45,12 +40,11 @@ export default function Order() {
           color: 'var(--color-text-secondary)',
           margin: 0,
         }}>
-          Upload your 3D model, configure settings, and get a live quote — then pay securely.
+          Upload your 3D model, choose materials, and get a quote in minutes.
         </p>
       </div>
 
       {job ? (
-        /* ── Success state ── */
         <div style={{
           background: 'var(--color-bg-card)',
           border: '1px solid rgba(0, 255, 136, 0.2)',
@@ -121,38 +115,31 @@ export default function Order() {
           </div>
         </div>
       ) : (
-        /* ── Two-column layout: Form + Calculator ── */
-        <>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)',
-            gap: '24px',
-            alignItems: 'start',
-          }}
-          className="order-grid"
-          >
-            {/* Left – Submit Order form */}
-            <div style={{
-              background: 'var(--color-bg-card)',
-              border: '1px solid rgba(143, 174, 126, 0.08)',
-              borderRadius: '12px',
-              padding: '32px',
-            }}>
-              <PrintJobForm onSubmit={handleSubmit} />
-            </div>
-
-            {/* Right – Quotation calculator */}
-            <QuotationCalculator />
-          </div>
-
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1.1fr 0.9fr',
+          gap: '24px',
+          alignItems: 'start',
+        }}>
           <style>{`
-            @media (max-width: 900px) {
+            @media (max-width: 899px) {
               .order-grid {
                 grid-template-columns: 1fr !important;
               }
             }
           `}</style>
-        </>
+          <div className="order-grid" style={{
+            background: 'var(--color-bg-card)',
+            border: '1px solid rgba(143, 174, 126, 0.08)',
+            borderRadius: '12px',
+            padding: '32px',
+          }}>
+            <PrintJobForm onSubmit={handleSubmit} />
+          </div>
+          <div className="order-grid">
+            <QuotationCalculator />
+          </div>
+        </div>
       )}
     </div>
   );
